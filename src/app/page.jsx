@@ -140,9 +140,9 @@ export default function Home() {
             <motion.div
               key={index}
               whileHover={{ y: -8, scale: 1.02 }}
-              className="glass-card glass-card-hover p-4 sm:p-6 group"
+              className="glass-card glass-card-hover p-4 sm:p-6 group text-center"
             >
-              <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-br ${feature.color} flex items-center justify-center text-xl sm:text-2xl mb-3 sm:mb-4 group-hover:scale-110 transition-transform duration-300`}>
+              <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-br ${feature.color} flex items-center justify-center text-xl sm:text-2xl mb-3 sm:mb-4 group-hover:scale-110 transition-transform duration-300 mx-auto`}>
                 {feature.icon}
               </div>
               <h3 className="text-white font-semibold text-base sm:text-lg mb-1 sm:mb-2">{feature.title}</h3>

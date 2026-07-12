@@ -111,24 +111,24 @@ export default function Dashboard() {
           {/* Row 2: Total Earnings + Chats Unlocked */}
           <div className="hidden lg:grid grid-cols-2 gap-4 pb-3">
             <div className="bg-gradient-to-br from-[#2A2522] to-[#1A1715] border border-[#C9A84C]/30 rounded-xl px-6 py-4 shadow-lg">
-              <p className="text-[#E8D5A3] text-xs font-medium uppercase tracking-wider mb-1">Total Earnings</p>
-              <p className="text-white text-2xl font-bold">KES {user.totalEarnings || 0}</p>
+              <p className="text-[#E8D5A3] text-xs font-medium uppercase tracking-wider mb-1 text-center">Total Earnings</p>
+              <p className="text-white text-2xl font-bold text-center">KES {user.totalEarnings || 0}</p>
             </div>
             <div className="bg-gradient-to-br from-[#2A2522] to-[#1A1715] border border-[#C9A84C]/30 rounded-xl px-6 py-4 shadow-lg">
-              <p className="text-[#E8D5A3] text-xs font-medium uppercase tracking-wider mb-1">Chats Unlocked</p>
-              <p className="text-white text-2xl font-bold">{user.totalUnlocks || 0}</p>
+              <p className="text-[#E8D5A3] text-xs font-medium uppercase tracking-wider mb-1 text-center">Chats Unlocked</p>
+              <p className="text-white text-2xl font-bold text-center">{user.totalUnlocks || 0}</p>
             </div>
           </div>
 
           {/* Mobile Row 2: Total Earnings + Chats Unlocked */}
           <div className="lg:hidden grid grid-cols-2 gap-3 pb-3">
             <div className="bg-gradient-to-br from-[#2A2522] to-[#1A1715] border border-[#C9A84C]/30 rounded-xl px-4 py-3 shadow-lg">
-              <p className="text-[#E8D5A3] text-[10px] font-medium uppercase tracking-wider mb-1">Total Earnings</p>
-              <p className="text-white text-lg font-bold">KES {user.totalEarnings || 0}</p>
+              <p className="text-[#E8D5A3] text-[10px] font-medium uppercase tracking-wider mb-1 text-center">Total Earnings</p>
+              <p className="text-white text-lg font-bold text-center">KES {user.totalEarnings || 0}</p>
             </div>
             <div className="bg-gradient-to-br from-[#2A2522] to-[#1A1715] border border-[#C9A84C]/30 rounded-xl px-4 py-3 shadow-lg">
-              <p className="text-[#E8D5A3] text-[10px] font-medium uppercase tracking-wider mb-1">Chats Unlocked</p>
-              <p className="text-white text-lg font-bold">{user.totalUnlocks || 0}</p>
+              <p className="text-[#E8D5A3] text-[10px] font-medium uppercase tracking-wider mb-1 text-center">Chats Unlocked</p>
+              <p className="text-white text-lg font-bold text-center">{user.totalUnlocks || 0}</p>
             </div>
           </div>
 
@@ -139,8 +139,8 @@ export default function Dashboard() {
           {/* Row 3: Wallet Balance + Withdraw */}
           <div className="hidden lg:grid grid-cols-2 gap-4 pb-4">
             <div className="bg-gradient-to-br from-[#2A2522] to-[#1A1715] border border-[#C9A84C]/30 rounded-xl px-6 py-4 shadow-lg">
-              <p className="text-[#E8D5A3] text-xs font-medium uppercase tracking-wider mb-1">Wallet Balance</p>
-              <p className="text-[#C9A84C] text-2xl font-bold">KES {user.walletBalance || 0}</p>
+              <p className="text-[#E8D5A3] text-xs font-medium uppercase tracking-wider mb-1 text-center">Remaining Balance</p>
+              <p className="text-[#C9A84C] text-2xl font-bold text-center">KES {user.walletBalance || 0}</p>
             </div>
             <button
               onClick={handleWithdrawClick}
@@ -156,8 +156,8 @@ export default function Dashboard() {
           {/* Mobile Row 3: Wallet Balance + Withdraw */}
           <div className="lg:hidden grid grid-cols-2 gap-3 pb-4">
             <div className="bg-gradient-to-br from-[#2A2522] to-[#1A1715] border border-[#C9A84C]/30 rounded-xl px-4 py-3 shadow-lg">
-              <p className="text-[#E8D5A3] text-[10px] font-medium uppercase tracking-wider mb-1">Wallet Balance</p>
-              <p className="text-[#C9A84C] text-lg font-bold">KES {user.walletBalance || 0}</p>
+              <p className="text-[#E8D5A3] text-[10px] font-medium uppercase tracking-wider mb-1 text-center">Remaining Balance</p>
+              <p className="text-[#C9A84C] text-lg font-bold text-center">KES {user.walletBalance || 0}</p>
             </div>
             <button
               onClick={handleWithdrawClick}
@@ -173,7 +173,7 @@ export default function Dashboard() {
       </header>
 
       {/* Spacer for fixed header */}
-      <div className="h-36 lg:h-32" />
+      <div className="h-[39px] lg:h-[35px]" />
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-2 pb-6 sm:pb-8">
