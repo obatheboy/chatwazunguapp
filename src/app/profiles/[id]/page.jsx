@@ -11,7 +11,7 @@ import ImageWithLoader from '@/components/ImageWithLoader';
 import PaymentModal from '@/components/PaymentModal';
 
 export default function ProfileDetail() {
-  const { isAuthenticated, user, refreshUser } = useAuth();
+  const { isAuthenticated, user, refreshUser, loading } = useAuth();
   const router = useRouter();
   const params = useParams();
   const profileId = params.id;
@@ -22,13 +22,14 @@ export default function ProfileDetail() {
   const [showPaymentModal, setShowPaymentModal] = useState(false);
 
   useEffect(() => {
+    if (loading) return;
     if (!isAuthenticated) {
       router.push('/auth/login');
       return;
     }
 
     fetchProfile();
-  }, [isAuthenticated, router, profileId]);
+  }, [isAuthenticated, loading, router, profileId]);
 
   const fetchProfile = async () => {
     try {
