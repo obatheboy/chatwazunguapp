@@ -86,19 +86,19 @@ export default function PaymentModal({ isOpen, onClose, profile, onSuccess }) {
             { transactionRequestId }
           );
 
-          const status = response.data.status;
+          const status = (response.data.status || '').toString().toLowerCase();
 
-          if (status === 'Completed') {
+          if (status === 'completed') {
             clearInterval(interval);
             setPaymentStatus('completed');
             setLoading(false);
-            toast.success('Payment successful! Profile unlocked!');
+            toast.success('🎉 Payment successful! Profile unlocked!');
             if (onSuccess) onSuccess();
             setTimeout(() => {
               handleClose();
               window.location.href = `/chats?profileId=${profile._id}`;
             }, 1500);
-          } else if (status === 'Failed') {
+          } else if (status === 'failed') {
             clearInterval(interval);
             setPaymentStatus('failed');
             setLoading(false);
@@ -181,6 +181,38 @@ export default function PaymentModal({ isOpen, onClose, profile, onSuccess }) {
               <p className="text-[#E8D5A3]/60 text-xs mt-1">
                 Please check your phone and enter M-Pesa PIN
               </p>
+              <button
+                onClick={async () => {
+                  try {
+                    const response = await axios.post(
+                      `${process.env.NEXT_PUBLIC_API_URL}/payments/megapay/status`,
+                      { transactionRequestId }
+                    );
+                    const status = (response.data.status || '').toString().toLowerCase();
+                    if (status === 'completed') {
+                      setPaymentStatus('completed');
+                      setLoading(false);
+                      toast.success('Payment successful! Profile unlocked!');
+                      if (onSuccess) onSuccess();
+                      setTimeout(() => {
+                        handleClose();
+                        window.location.href = `/chats?profileId=${profile._id}`;
+                      }, 1500);
+                    } else if (status === 'failed') {
+                      setPaymentStatus('failed');
+                      setLoading(false);
+                      toast.error('Payment failed. Please try again.');
+                    } else {
+                      toast.success('Payment still pending. Please complete on your phone.');
+                    }
+                  } catch (error) {
+                    toast.error('Could not check status. Please wait...');
+                  }
+                }}
+                className="mt-3 text-[#C9A84C] text-sm hover:text-white transition-colors"
+              >
+                Check Status
+              </button>
             </div>
           )}
 
