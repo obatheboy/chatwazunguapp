@@ -63,21 +63,22 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#1A0F0A] to-[#2D1B1B]">
-      {/* Fixed Professional Top Bar - Three Rows */}
+      {/* Fixed Top Bar - Three Rows */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-[#1A0F0A]/98 backdrop-blur-xl border-b-2 border-[#C9A84C] shadow-2xl">
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
           {/* Row 1: Logo + ChatWazungu + Logout */}
-          <div className="hidden lg:flex items-center justify-between py-3">
+          <div className="hidden lg:flex items-center justify-between py-4 relative">
             <Link href="/dashboard" className="flex items-center gap-3 flex-shrink-0">
               <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#C9A84C] to-[#A8893A] flex items-center justify-center shadow-lg shadow-[#C9A84C]/40">
                 <span className="text-xl font-bold text-[#1A0F0A]">CW</span>
               </div>
-              <span className="text-2xl font-bold gold-text uppercase tracking-wider">ChatWazungu</span>
             </Link>
+
+            <span className="text-3xl font-bold gold-text uppercase tracking-widest absolute left-1/2 -translate-x-1/2">ChatWazungu</span>
 
             <button
               onClick={handleLogout}
-              className="flex items-center gap-2 px-4 py-2.5 rounded-xl font-medium text-sm text-red-400 hover:text-red-300 hover:bg-red-900/20 transition-all duration-300 border border-red-400/30"
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl font-medium text-sm text-red-400 hover:text-red-300 hover:bg-red-900/20 transition-all duration-300 border border-red-400/30 flex-shrink-0"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
@@ -87,17 +88,18 @@ export default function Dashboard() {
           </div>
 
           {/* Mobile Row 1: Logo + ChatWazungu + Logout */}
-          <div className="lg:hidden flex items-center justify-between py-3">
+          <div className="lg:hidden flex items-center justify-between py-3 relative">
             <Link href="/dashboard" className="flex items-center gap-2 flex-shrink-0">
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#C9A84C] to-[#A8893A] flex items-center justify-center shadow-lg shadow-[#C9A84C]/40">
                 <span className="text-lg font-bold text-[#1A0F0A]">CW</span>
               </div>
-              <span className="text-xl font-bold gold-text uppercase tracking-wider">ChatWazungu</span>
             </Link>
+
+            <span className="text-xl font-bold gold-text uppercase tracking-wider absolute left-1/2 -translate-x-1/2">ChatWazungu</span>
 
             <button
               onClick={handleLogout}
-              className="flex items-center gap-1.5 px-3 py-2 rounded-lg font-medium text-xs text-red-400 hover:text-red-300 hover:bg-red-900/20 transition-all duration-300 border border-red-400/30"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-lg font-medium text-xs text-red-400 hover:text-red-300 hover:bg-red-900/20 transition-all duration-300 border border-red-400/30 flex-shrink-0"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
@@ -167,10 +169,10 @@ export default function Dashboard() {
       </header>
 
       {/* Spacer for fixed header */}
-      <div className="h-52 lg:h-40" />
+      <div className="h-44 lg:h-36" />
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-2 pb-6 sm:pb-8">
         {/* Profiles Grid */}
         {loading ? (
           <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
