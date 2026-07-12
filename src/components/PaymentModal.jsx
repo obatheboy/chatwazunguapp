@@ -148,9 +148,9 @@ export default function PaymentModal({ isOpen, onClose, profile, onSuccess }) {
           <div className="space-y-3">
             <button
               onClick={() => setStep('pay')}
-              className="w-full flex items-center justify-center gap-3 bg-gradient-to-r from-[#22C55E] to-[#16A34A] hover:from-[#16A34A] hover:to-[#22C55E] text-white font-bold py-4 sm:py-5 rounded-xl transition-all duration-300 text-lg sm:text-xl shadow-lg shadow-green-500/30 hover:shadow-xl hover:shadow-green-500/40"
+              className="w-full flex items-center justify-center gap-3 bg-gradient-to-r from-[#22C55E] to-[#16A34A] hover:from-[#16A34A] hover:to-[#22C55E] text-white font-bold py-5 sm:py-6 rounded-xl transition-all duration-300 text-xl sm:text-2xl shadow-lg shadow-green-500/30 hover:shadow-xl hover:shadow-green-500/40"
             >
-              <span className="text-2xl">💳</span>
+              <span className="text-3xl">💳</span>
               <span>Tap Here to Pay</span>
             </button>
             <button
@@ -192,7 +192,7 @@ export default function PaymentModal({ isOpen, onClose, profile, onSuccess }) {
           <button
             onClick={handlePay}
             disabled={loading || paymentStatus === 'pending'}
-            className="w-full bg-gradient-to-r from-[#22C55E] to-[#16A34A] hover:from-[#16A34A] hover:to-[#22C55E] text-white font-bold py-4 rounded-xl transition-all duration-300 text-lg shadow-lg shadow-green-500/30 disabled:opacity-50"
+            className="w-full bg-gradient-to-r from-[#22C55E] to-[#16A34A] hover:from-[#16A34A] hover:to-[#22C55E] text-white font-bold py-5 rounded-xl transition-all duration-300 text-xl shadow-lg shadow-green-500/30 disabled:opacity-50"
           >
             {loading ? '⏳ Processing...' : paymentStatus === 'pending' ? '⏳ Waiting for payment...' : 'Tap to Pay - KES 99'}
           </button>

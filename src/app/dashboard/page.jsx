@@ -56,13 +56,6 @@ export default function Dashboard() {
     }
   };
 
-  const getUserUnlockButtonText = () => {
-    const totalUnlocks = user?.totalUnlocks || 0;
-    if (totalUnlocks >= 6) return 'Withdraw';
-    const remaining = 6 - totalUnlocks;
-    return `Unlock ${remaining} more chat${remaining !== 1 ? 's' : ''}`;
-  };
-
   const handleChatNow = (e, profile) => {
     e.stopPropagation();
     if (profile.isUnlocked) {
@@ -160,8 +153,8 @@ export default function Dashboard() {
               className="bg-gradient-to-r from-[#C9A84C] to-[#E8D5A3] hover:from-[#E8D5A3] hover:to-[#C9A84C] text-[#1A0F0A] font-bold text-base px-6 py-4 rounded-xl shadow-lg shadow-[#C9A84C]/30 hover:shadow-xl hover:shadow-[#C9A84C]/50 transition-all duration-300 border-2 border-[#E8D5A3]"
             >
               <span className="flex items-center justify-center gap-2">
-                <span className="text-lg">💬</span>
-                <span>{getUserUnlockButtonText()}</span>
+                <span className="text-lg">💰</span>
+                <span>Withdraw</span>
               </span>
             </button>
           </div>
@@ -177,8 +170,8 @@ export default function Dashboard() {
               className="bg-gradient-to-r from-[#C9A84C] to-[#E8D5A3] hover:from-[#E8D5A3] hover:to-[#C9A84C] text-[#1A0F0A] font-bold text-sm px-4 py-3 rounded-xl shadow-lg shadow-[#C9A84C]/30 transition-all duration-300 border-2 border-[#E8D5A3]"
             >
               <span className="flex items-center justify-center gap-1">
-                <span>💬</span>
-                <span>{getUserUnlockButtonText()}</span>
+                <span>💰</span>
+                <span>Withdraw</span>
               </span>
             </button>
           </div>
@@ -262,11 +255,9 @@ export default function Dashboard() {
                           {profile.fullName}
                         </h3>
                         <div className="flex items-center gap-1.5 text-[#E8D5A3] text-xs sm:text-sm">
-                          <span>{profile.category === 'white-female' ? '👩 Woman' : '👨 Man'}</span>
-                          <span className="w-1 h-1 bg-[#C9A84C] rounded-full flex-shrink-0" />
                           <span className="truncate">{profile.onlineStatus === 'online' ? 'Online' : 'Offline'}</span>
                         </div>
-                      </div>
+                        </div>
 
                       <div className="mt-auto">
                         <button
@@ -290,7 +281,7 @@ export default function Dashboard() {
         <div className="p-6 text-center">
           <div className="text-4xl mb-3">🔒</div>
           <p className="text-white font-medium text-lg mb-2">
-            Unlock 6 chats to withdraw.
+            Unlock {6 - (user?.totalUnlocks || 0)} more chats to withdraw.
           </p>
           <p className="text-[#E8D5A3]">
             You have unlocked {user?.totalUnlocks || 0} chats.
