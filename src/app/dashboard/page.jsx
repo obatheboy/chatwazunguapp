@@ -173,10 +173,10 @@ export default function Dashboard() {
       </header>
 
       {/* Spacer for fixed header */}
-      <div className="h-56 lg:h-52" />
+      <div className="h-36 lg:h-32" />
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-6 sm:pb-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-2 pb-6 sm:pb-8">
         {/* Profiles Grid */}
         {/* Profiles Grid */}
         {loading ? (
