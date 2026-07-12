@@ -92,7 +92,7 @@ export default function PaymentModal({ isOpen, onClose, profile, onSuccess }) {
             clearInterval(interval);
             setPaymentStatus('completed');
             setLoading(false);
-            toast.success('🎉 Payment successful! Profile unlocked!');
+            toast.success('Payment successful! Profile unlocked!');
             if (onSuccess) onSuccess();
             setTimeout(() => {
               handleClose();
@@ -115,29 +115,47 @@ export default function PaymentModal({ isOpen, onClose, profile, onSuccess }) {
   return (
     <Modal isOpen={isOpen} onClose={handleClose}>
       {step === 'options' && (
-        <div className="p-6">
-          <div className="text-center mb-6">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-[#22C55E]/15 text-3xl mb-3">
+        <div className="p-6 sm:p-8">
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center justify-center w-20 h-20 rounded-3xl bg-gradient-to-br from-[#22C55E]/20 to-[#16A34A]/10 text-5xl mb-5 shadow-lg shadow-green-500/20">
               🔓
             </div>
-            <h3 className="text-white font-bold text-xl">
-              Unlock with KES 99 to start chatting
+            <h3 className="text-2xl sm:text-3xl font-bold text-white mb-2">
+              Unlock {profile?.fullName || 'Profile'}
             </h3>
-            {profile?.fullName && (
-              <p className="text-[#E8D5A3] mt-1">Chat with {profile.fullName}</p>
-            )}
+            <p className="text-[#E8D5A3] text-base sm:text-lg">
+              Get full access and start chatting
+            </p>
+          </div>
+
+          <div className="bg-gradient-to-br from-[#2A2522] to-[#1A1715] rounded-2xl p-5 sm:p-6 border border-[#C9A84C]/20 mb-6">
+            <h4 className="text-[#C9A84C] font-semibold text-base sm:text-lg mb-4 text-center">What you get:</h4>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
+              {[
+                { icon: '💬', title: 'Instant Chat', desc: 'Start messaging now' },
+                { icon: '👤', title: 'Full Profile', desc: 'Complete bio & details' },
+                { icon: '💰', title: 'Earn KES 500', desc: 'Per unlock' },
+              ].map((benefit, index) => (
+                <div key={index} className="p-3">
+                  <div className="text-3xl sm:text-4xl mb-2">{benefit.icon}</div>
+                  <p className="text-white font-medium text-sm sm:text-base mb-1">{benefit.title}</p>
+                  <p className="text-[#E8D5A3] text-xs sm:text-sm">{benefit.desc}</p>
+                </div>
+              ))}
+            </div>
           </div>
 
           <div className="space-y-3">
             <button
               onClick={() => setStep('pay')}
-              className="w-full flex items-center justify-center gap-2 bg-[#22C55E] hover:bg-[#16A34A] text-white font-bold py-4 rounded-xl transition-all duration-300 text-lg shadow-lg shadow-green-500/30"
+              className="w-full flex items-center justify-center gap-3 bg-gradient-to-r from-[#22C55E] to-[#16A34A] hover:from-[#16A34A] hover:to-[#22C55E] text-white font-bold py-4 sm:py-5 rounded-xl transition-all duration-300 text-lg sm:text-xl shadow-lg shadow-green-500/30 hover:shadow-xl hover:shadow-green-500/40"
             >
-              💳 Tap Here to Pay
+              <span className="text-2xl">💳</span>
+              <span>Tap Here to Pay</span>
             </button>
             <button
               onClick={() => setStep('manual')}
-              className="w-full text-[#E8D5A3] hover:text-white py-2 text-sm transition-colors"
+              className="w-full text-[#E8D5A3] hover:text-white py-3 text-sm transition-colors"
             >
               Or use Manual Payment
             </button>
@@ -146,14 +164,20 @@ export default function PaymentModal({ isOpen, onClose, profile, onSuccess }) {
       )}
 
       {step === 'pay' && (
-        <div className="p-6">
+        <div className="p-6 sm:p-8">
           <button
             onClick={() => { setStep('options'); setPaymentStatus('idle'); setTransactionRequestId(null); }}
             className="text-[#E8D5A3] hover:text-white text-sm mb-4 transition-colors"
           >
             ← Back
           </button>
-          <h3 className="text-white font-bold text-lg mb-4">Pay KES 99 via M-Pesa</h3>
+          <div className="text-center mb-6">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-[#22C55E]/15 text-3xl mb-3">
+              💳
+            </div>
+            <h3 className="text-white font-bold text-xl sm:text-2xl mb-2">Pay KES 99 via M-Pesa</h3>
+            <p className="text-[#E8D5A3] text-sm">Complete payment to unlock {profile?.fullName}</p>
+          </div>
           <label className="block text-[#E8D5A3] text-sm font-medium mb-2">
             M-Pesa Phone Number
           </label>
@@ -168,13 +192,13 @@ export default function PaymentModal({ isOpen, onClose, profile, onSuccess }) {
           <button
             onClick={handlePay}
             disabled={loading || paymentStatus === 'pending'}
-            className="w-full bg-[#22C55E] hover:bg-[#16A34A] text-white font-bold py-4 rounded-xl transition-all duration-300 text-lg shadow-lg shadow-green-500/30 disabled:opacity-50"
+            className="w-full bg-gradient-to-r from-[#22C55E] to-[#16A34A] hover:from-[#16A34A] hover:to-[#22C55E] text-white font-bold py-4 rounded-xl transition-all duration-300 text-lg shadow-lg shadow-green-500/30 disabled:opacity-50"
           >
             {loading ? '⏳ Processing...' : paymentStatus === 'pending' ? '⏳ Waiting for payment...' : 'Tap to Pay - KES 99'}
           </button>
 
           {paymentStatus === 'pending' && (
-            <div className="text-center mt-4">
+            <div className="text-center mt-5">
               <p className="text-[#E8D5A3] text-sm">
                 ⏳ Waiting for payment confirmation...
               </p>
@@ -231,23 +255,31 @@ export default function PaymentModal({ isOpen, onClose, profile, onSuccess }) {
       )}
 
       {step === 'manual' && (
-        <div className="p-6">
+        <div className="p-6 sm:p-8">
           <button
             onClick={() => setStep('options')}
             className="text-[#E8D5A3] hover:text-white text-sm mb-4 transition-colors"
           >
             ← Back
           </button>
-          <h3 className="text-white font-bold text-lg mb-4">Manual Payment</h3>
+          <div className="text-center mb-6">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-[#C9A84C]/15 text-3xl mb-3">
+              📝
+            </div>
+            <h3 className="text-white font-bold text-xl sm:text-2xl mb-2">Manual Payment</h3>
+            <p className="text-[#E8D5A3] text-sm">Send KES 99 via M-Pesa</p>
+          </div>
 
-          <div className="bg-[#2A2522] rounded-xl p-4 border border-[#C9A84C]/20 mb-4">
-            <p className="text-[#E8D5A3] mb-2">📱 Send KES 99 to:</p>
-            <p className="text-white">
-              Paybill: <span className="font-bold">0140834185</span>
-            </p>
-            <p className="text-white">
-              Name: <span className="font-bold">OBADIAH OTOKI</span>
-            </p>
+          <div className="bg-[#2A2522] rounded-2xl p-5 sm:p-6 border border-[#C9A84C]/20 mb-6">
+            <p className="text-[#E8D5A3] mb-3 text-center">📱 Send KES 99 to:</p>
+            <div className="space-y-2 text-center">
+              <p className="text-white text-base sm:text-lg">
+                Paybill: <span className="font-bold text-[#C9A84C]">0140834185</span>
+              </p>
+              <p className="text-white text-base sm:text-lg">
+                Name: <span className="font-bold text-[#C9A84C]">OBADIAH OTOKI</span>
+              </p>
+            </div>
           </div>
 
           <p className="text-[#E8D5A3] text-sm mb-2">
@@ -263,7 +295,7 @@ export default function PaymentModal({ isOpen, onClose, profile, onSuccess }) {
           <button
             onClick={handleManual}
             disabled={loading}
-            className="w-full btn-primary py-3.5 rounded-xl"
+            className="w-full btn-primary py-4 rounded-xl text-base"
           >
             {loading ? 'Verifying...' : 'Submit Payment'}
           </button>

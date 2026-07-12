@@ -8,9 +8,10 @@ import axios from '@/utils/axios';
 import Link from 'next/link';
 import { toast } from 'react-hot-toast';
 import ImageWithLoader from '@/components/ImageWithLoader';
+import PaymentModal from '@/components/PaymentModal';
 
 export default function ProfileDetail() {
-  const { isAuthenticated, user } = useAuth();
+  const { isAuthenticated, user, refreshUser } = useAuth();
   const router = useRouter();
   const params = useParams();
   const profileId = params.id;
@@ -18,7 +19,7 @@ export default function ProfileDetail() {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isUnlocked, setIsUnlocked] = useState(false);
-  const [paymentLoading, setPaymentLoading] = useState(false);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -48,7 +49,7 @@ export default function ProfileDetail() {
   };
 
   const handleUnlock = () => {
-    router.push(`/unlock/${profileId}`);
+    setShowPaymentModal(true);
   };
 
   const handleSendMessage = async () => {

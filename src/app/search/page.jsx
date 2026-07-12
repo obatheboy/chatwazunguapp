@@ -7,12 +7,14 @@ import { motion } from 'framer-motion';
 import axios from '@/utils/axios';
 import Link from 'next/link';
 import ImageWithLoader from '@/components/ImageWithLoader';
+import PaymentModal from '@/components/PaymentModal';
 
 export default function SearchPage() {
   const { isAuthenticated } = useAuth();
   const router = useRouter();
   const [profiles, setProfiles] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [activeProfile, setActiveProfile] = useState(null);
   const [query, setQuery] = useState('');
   const [county, setCounty] = useState('');
   const [category, setCategory] = useState('');
@@ -228,7 +230,7 @@ export default function SearchPage() {
                             💬 Chat Now
                           </button>
                         ) : (
-                          <button onClick={(e) => { e.stopPropagation(); router.push(`/unlock/${profile._id}`); }} className="w-full bg-gradient-to-r from-[#BB0000] to-[#8B0000] text-white font-bold py-4 sm:py-5 rounded-xl text-base sm:text-lg hover:shadow-lg hover:shadow-red-500/30 transition-all duration-300 flex items-center justify-center gap-2">
+                          <button onClick={(e) => { e.stopPropagation(); setActiveProfile(profile); }} className="w-full bg-gradient-to-r from-[#BB0000] to-[#8B0000] text-white font-bold py-4 sm:py-5 rounded-xl text-base sm:text-lg hover:shadow-lg hover:shadow-red-500/30 transition-all duration-300 flex items-center justify-center gap-2">
                             <span>🔒</span> Unlock - KSh 99
                           </button>
                         )}
@@ -241,6 +243,16 @@ export default function SearchPage() {
           </motion.div>
         ) : null}
       </main>
+
+      <PaymentModal
+        isOpen={!!activeProfile}
+        onClose={() => setActiveProfile(null)}
+        profile={activeProfile}
+        onSuccess={() => {
+          fetchProfiles();
+          fetchCounties();
+        }}
+      />
     </div>
   );
 }
