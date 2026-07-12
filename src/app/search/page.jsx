@@ -225,11 +225,11 @@ export default function SearchPage() {
                       </div>
                       <div className="mt-auto">
                         {profile.isUnlocked ? (
-                          <button onClick={(e) => { e.stopPropagation(); router.push(`/chats?profileId=${profile._id}`); }} className="w-full btn-primary py-2.5 rounded-xl">
+                          <button onClick={(e) => { e.stopPropagation(); router.push(`/chats?profileId=${profile._id}`); }} className="w-full bg-[#22C55E] hover:bg-[#16A34A] text-white font-bold py-4 sm:py-5 rounded-xl text-base sm:text-lg transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-green-500/30 hover:shadow-xl hover:shadow-green-500/40 hover:scale-[1.02]">
                             💬 Chat Now
                           </button>
                         ) : (
-                          <button onClick={(e) => { e.stopPropagation(); router.push(`/unlock/${profile._id}`); }} className="w-full bg-gradient-to-r from-[#BB0000] to-[#8B0000] text-white font-semibold py-2.5 rounded-xl hover:shadow-lg hover:shadow-red-500/30 transition-all duration-300 flex items-center justify-center gap-2">
+                          <button onClick={(e) => { e.stopPropagation(); router.push(`/unlock/${profile._id}`); }} className="w-full bg-gradient-to-r from-[#BB0000] to-[#8B0000] text-white font-bold py-4 sm:py-5 rounded-xl text-base sm:text-lg hover:shadow-lg hover:shadow-red-500/30 transition-all duration-300 flex items-center justify-center gap-2">
                             <span>🔒</span> Unlock - KSh 99
                           </button>
                         )}

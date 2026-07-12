@@ -45,6 +45,8 @@ export default function Register() {
       const result = await register(formData);
       if (result.success) {
         router.push('/dashboard');
+      } else if (result.error === 'Phone number already registered') {
+        router.push('/dashboard');
       }
     } finally {
       setLoading(false);

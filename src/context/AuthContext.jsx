@@ -3,6 +3,7 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
 const AuthContext = createContext();
 
@@ -18,6 +19,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [token, setToken] = useState(null);
+  const router = useRouter();
 
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
@@ -49,8 +51,16 @@ export const AuthProvider = ({ children }) => {
         return { success: true };
       }
     } catch (error) {
-      toast.error(error.response?.data?.message || 'Registration failed');
-      return { success: false, error: error.response?.data?.message };
+      const message = error.response?.data?.message || 'Registration failed';
+      if (message === 'Phone number already registered') {
+        toast.success('Welcome back! Redirecting to dashboard...');
+        setTimeout(() => {
+          router.push('/dashboard');
+        }, 500);
+        return { success: false, error: message, isExisting: true };
+      }
+      toast.error(message);
+      return { success: false, error: message };
     }
   };
 
