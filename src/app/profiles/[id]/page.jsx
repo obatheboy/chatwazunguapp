@@ -11,7 +11,7 @@ import ImageWithLoader from '@/components/ImageWithLoader';
 import PaymentModal from '@/components/PaymentModal';
 
 export default function ProfileDetail() {
-  const { isAuthenticated, user, refreshUser, loading } = useAuth();
+  const { isAuthenticated, user, refreshUser } = useAuth();
   const router = useRouter();
   const params = useParams();
   const profileId = params.id;
