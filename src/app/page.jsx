@@ -25,8 +25,8 @@ export default function Home() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#C9A84C]/3 rounded-full blur-3xl" />
       </div>
 
-      {/* Navigation - Centered Logo */}
-      <nav className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      {/* Centered Logo */}
+      <nav className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 sm:pt-12">
         <div className="flex justify-center items-center">
           <motion.div
             initial={{ opacity: 0, y: -20 }}
@@ -37,13 +37,13 @@ export default function Home() {
             <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-3xl bg-gradient-to-br from-[#C9A84C] to-[#A8893A] flex items-center justify-center shadow-2xl shadow-[#C9A84C]/40">
               <span className="text-3xl sm:text-4xl font-bold text-[#1A0F0A]">CW</span>
             </div>
-            <span className="text-2xl sm:text-3xl font-bold gold-text">ChatWazungu</span>
+            <span className="text-2xl sm:text-3xl font-bold gold-text text-center">ChatWazungu</span>
           </motion.div>
         </div>
       </nav>
 
       {/* Hero Section */}
-      <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 lg:py-32">
+      <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 lg:py-28">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -99,7 +99,7 @@ export default function Home() {
           </motion.div>
         </motion.div>
 
-        {/* Stats - Cleaned up */}
+        {/* Stats */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
@@ -125,7 +125,7 @@ export default function Home() {
           ))}
         </motion.div>
 
-        {/* Features - Updated */}
+        {/* Features */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}

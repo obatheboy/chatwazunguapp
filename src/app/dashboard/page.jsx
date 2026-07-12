@@ -64,32 +64,32 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#1A0F0A] to-[#2D1B1B]">
       {/* Fixed Professional Top Bar */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-[#1A0F0A]/95 backdrop-blur-xl border-b border-[#C9A84C]/30 shadow-2xl">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-[#1A0F0A] via-[#2D1B1B] to-[#1A0F0A] border-b-2 border-[#C9A84C] shadow-2xl">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16 sm:h-20">
+          <div className="flex items-center justify-between h-16 sm:h-20 lg:h-24">
             {/* Logo */}
             <Link href="/dashboard" className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-[#C9A84C] to-[#A8893A] flex items-center justify-center shadow-lg shadow-[#C9A84C]/30">
-                <span className="text-sm sm:text-base font-bold text-[#1A0F0A]">CW</span>
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-br from-[#C9A84C] to-[#A8893A] flex items-center justify-center shadow-lg shadow-[#C9A84C]/40">
+                <span className="text-lg sm:text-xl font-bold text-[#1A0F0A]">CW</span>
               </div>
-              <span className="text-lg sm:text-xl font-bold gold-text hidden sm:block">ChatWazungu</span>
+              <span className="text-xl sm:text-2xl font-bold gold-text hidden sm:block">ChatWazungu</span>
             </Link>
 
-            {/* Stats Bar */}
-            <div className="hidden lg:flex items-center gap-6">
-              <div className="flex items-center gap-2">
-                <span className="text-[#E8D5A3] text-base font-medium">Your Earnings</span>
-                <span className="text-white font-bold text-xl">KES {user.totalEarnings || 0}</span>
+            {/* Stats Bar - Huge and Clear */}
+            <div className="hidden lg:flex items-center gap-8">
+              <div className="text-center">
+                <p className="text-[#E8D5A3] text-sm font-medium uppercase tracking-wider mb-1">Your Earnings</p>
+                <p className="text-white text-2xl font-bold">KES {user.totalEarnings || 0}</p>
               </div>
-              <div className="w-px h-8 bg-[#C9A84C]/20" />
-              <div className="flex items-center gap-2">
-                <span className="text-[#E8D5A3] text-base font-medium">Wallet</span>
-                <span className="text-[#C9A84C] font-bold text-xl">KES {user.walletBalance || 0}</span>
+              <div className="w-px h-12 bg-[#C9A84C]/30" />
+              <div className="text-center">
+                <p className="text-[#E8D5A3] text-sm font-medium uppercase tracking-wider mb-1">Wallet Balance</p>
+                <p className="text-[#C9A84C] text-2xl font-bold">KES {user.walletBalance || 0}</p>
               </div>
-              <div className="w-px h-8 bg-[#C9A84C]/20" />
-              <div className="flex items-center gap-2">
-                <span className="text-[#E8D5A3] text-base font-medium">Unlocked</span>
-                <span className="text-white font-bold text-xl">{user.totalUnlocks || 0}</span>
+              <div className="w-px h-12 bg-[#C9A84C]/30" />
+              <div className="text-center">
+                <p className="text-[#E8D5A3] text-sm font-medium uppercase tracking-wider mb-1">Unlocked</p>
+                <p className="text-white text-2xl font-bold">{user.totalUnlocks || 0}</p>
               </div>
             </div>
 
@@ -97,14 +97,14 @@ export default function Dashboard() {
             <div className="flex items-center gap-2 sm:gap-3">
               <button
                 onClick={handleWithdrawClick}
-                className="hidden sm:flex items-center gap-1.5 px-4 sm:px-5 py-2 rounded-lg font-semibold text-sm text-[#1A0F0A] bg-gradient-to-r from-[#C9A84C] to-[#E8D5A3] hover:shadow-lg hover:shadow-[#C9A84C]/40 transition-all duration-300"
+                className="hidden sm:flex items-center gap-2 px-5 sm:px-6 py-2.5 rounded-lg font-bold text-base text-[#1A0F0A] bg-gradient-to-r from-[#C9A84C] to-[#E8D5A3] hover:shadow-xl hover:shadow-[#C9A84C]/50 transition-all duration-300 border-2 border-[#E8D5A3]"
               >
-                <span>💰</span>
+                <span className="text-lg">💰</span>
                 <span>Withdraw</span>
               </button>
               <button
                 onClick={handleLogout}
-                className="flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-lg font-medium text-sm text-red-400 hover:text-red-300 hover:bg-red-900/20 transition-all duration-300"
+                className="flex items-center gap-1.5 px-3 sm:px-4 py-2.5 rounded-lg font-medium text-sm text-red-400 hover:text-red-300 hover:bg-red-900/20 transition-all duration-300 border border-red-400/30"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
@@ -115,24 +115,24 @@ export default function Dashboard() {
           </div>
 
           {/* Mobile Stats Bar */}
-          <div className="lg:hidden flex items-center justify-between py-2 border-t border-[#C9A84C]/10">
-            <div className="flex items-center gap-3 text-xs">
+          <div className="lg:hidden flex items-center justify-between py-2.5 border-t border-[#C9A84C]/20">
+            <div className="flex items-center gap-4 text-sm">
               <div>
-                <span className="text-[#E8D5A3]">Earnings: </span>
-                <span className="text-white font-semibold">KES {user.totalEarnings || 0}</span>
+                <span className="text-[#E8D5A3] text-xs uppercase tracking-wider">Earnings</span>
+                <p className="text-white font-bold text-base">KES {user.totalEarnings || 0}</p>
               </div>
               <div>
-                <span className="text-[#E8D5A3]">Wallet: </span>
-                <span className="text-[#C9A84C] font-semibold">KES {user.walletBalance || 0}</span>
+                <span className="text-[#E8D5A3] text-xs uppercase tracking-wider">Wallet</span>
+                <p className="text-[#C9A84C] font-bold text-base">KES {user.walletBalance || 0}</p>
               </div>
               <div>
-                <span className="text-[#E8D5A3]">Unlocked: </span>
-                <span className="text-white font-semibold">{user.totalUnlocks || 0}</span>
+                <span className="text-[#E8D5A3] text-xs uppercase tracking-wider">Unlocked</span>
+                <p className="text-white font-bold text-base">{user.totalUnlocks || 0}</p>
               </div>
             </div>
             <button
               onClick={handleWithdrawClick}
-              className="sm:hidden flex items-center gap-1 px-3 py-1.5 rounded-lg font-semibold text-xs text-[#1A0F0A] bg-gradient-to-r from-[#C9A84C] to-[#E8D5A3]"
+              className="sm:hidden flex items-center gap-1 px-4 py-2 rounded-lg font-bold text-sm text-[#1A0F0A] bg-gradient-to-r from-[#C9A84C] to-[#E8D5A3] border-2 border-[#E8D5A3]"
             >
               💰 Withdraw
             </button>
@@ -149,15 +149,15 @@ export default function Dashboard() {
         <div className="lg:hidden glass-card rounded-2xl p-4 mb-6">
           <div className="grid grid-cols-3 gap-3">
             <div className="text-center">
-              <p className="text-[#E8D5A3] text-xs font-medium">Your Earnings</p>
+              <p className="text-[#E8D5A3] text-xs font-medium uppercase tracking-wider">Earnings</p>
               <p className="text-white text-lg font-bold">KES {user.totalEarnings || 0}</p>
             </div>
             <div className="text-center border-x border-[#C9A84C]/20">
-              <p className="text-[#E8D5A3] text-xs font-medium">Wallet Balance</p>
+              <p className="text-[#E8D5A3] text-xs font-medium uppercase tracking-wider">Wallet</p>
               <p className="text-[#C9A84C] text-lg font-bold">KES {user.walletBalance || 0}</p>
             </div>
             <div className="text-center">
-              <p className="text-[#E8D5A3] text-xs font-medium">Unlocked</p>
+              <p className="text-[#E8D5A3] text-xs font-medium uppercase tracking-wider">Unlocked</p>
               <p className="text-white text-lg font-bold">{user.totalUnlocks || 0}</p>
             </div>
           </div>
