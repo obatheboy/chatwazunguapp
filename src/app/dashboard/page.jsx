@@ -16,10 +16,6 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [showWithdrawModal, setShowWithdrawModal] = useState(false);
   const [activeProfile, setActiveProfile] = useState(null);
-  const [filters, setFilters] = useState({
-    category: 'all',
-    gender: 'all'
-  });
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -29,15 +25,11 @@ export default function Dashboard() {
     fetchProfiles();
   }, [isAuthenticated, router]);
 
-  const fetchProfiles = async () => {
+  async function fetchProfiles() {
     try {
       setLoading(true);
-      const params = new URLSearchParams();
-      if (filters.category !== 'all') params.append('category', filters.category);
-      if (filters.gender !== 'all') params.append('gender', filters.gender);
-      
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/profiles?${params.toString()}`
+        `${process.env.NEXT_PUBLIC_API_URL}/profiles`
       );
       setProfiles(response.data.profiles || []);
     } catch (error) {
@@ -46,19 +38,11 @@ export default function Dashboard() {
     } finally {
       setLoading(false);
     }
-  };
+  }
 
   const handleLogout = () => {
     logout();
     router.push('/auth/login');
-  };
-
-  const handleFilterChange = (key, value) => {
-    setFilters(prev => ({ ...prev, [key]: value }));
-  };
-
-  const applyFilters = () => {
-    fetchProfiles();
   };
 
   const handleWithdrawClick = () => {
@@ -126,7 +110,7 @@ export default function Dashboard() {
       <div className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-[#C9A84C]/10 via-[#A8893A]/5 to-[#C9A84C]/10" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex flex-wrap items-center justify-between gap-6">
+          <div className="grid grid-cols-3 gap-3 sm:gap-6 sm:flex sm:flex-wrap sm:items-center sm:justify-between">
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -155,10 +139,11 @@ export default function Dashboard() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
+              className="col-span-3 sm:col-span-1 sm:flex-none"
             >
               <button
                 onClick={handleWithdrawClick}
-                className="px-6 py-3 rounded-xl font-semibold text-[#1A0F0A] bg-gradient-to-r from-[#C9A84C] to-[#E8D5A3] hover:shadow-lg hover:shadow-[#C9A84C]/40 transition-all duration-300 animate-pulse-gold"
+                className="w-full sm:w-auto px-6 py-3 rounded-xl font-semibold text-[#1A0F0A] bg-gradient-to-r from-[#C9A84C] to-[#E8D5A3] hover:shadow-lg hover:shadow-[#C9A84C]/40 transition-all duration-300 animate-pulse-gold"
               >
                 💰 Withdraw
               </button>
@@ -169,55 +154,9 @@ export default function Dashboard() {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Filter Bar */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="glass-card rounded-2xl p-6 mb-8"
-        >
-          <div className="flex flex-wrap gap-4 items-end">
-            <div className="flex-1 min-w-[200px]">
-              <label className="block text-[#E8D5A3] text-sm font-medium mb-2">
-                Category
-              </label>
-              <select
-                value={filters.category}
-                onChange={(e) => handleFilterChange('category', e.target.value)}
-                className="input-field cursor-pointer"
-              >
-                <option value="all">All Profiles</option>
-                <option value="white-female">Women</option>
-                <option value="white-male">Men</option>
-              </select>
-            </div>
-
-            <div className="flex-1 min-w-[200px]">
-              <label className="block text-[#E8D5A3] text-sm font-medium mb-2">
-                Status
-              </label>
-              <select
-                value={filters.gender}
-                onChange={(e) => handleFilterChange('gender', e.target.value)}
-                className="input-field cursor-pointer"
-              >
-                <option value="all">All</option>
-                <option value="online">Online Only</option>
-              </select>
-            </div>
-
-            <button
-              onClick={applyFilters}
-              className="btn-primary px-8 py-3 rounded-xl"
-            >
-              Apply Filters
-            </button>
-          </div>
-        </motion.div>
-
         {/* Profiles Grid */}
         {loading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {[...Array(8)].map((_, i) => (
               <div key={i} className="rounded-2xl h-80 shimmer" />
             ))}
@@ -229,15 +168,15 @@ export default function Dashboard() {
             className="text-center py-20"
           >
             <div className="text-6xl mb-4">🔍</div>
-            <p className="text-[#E8D5A3] text-xl mb-2">No profiles found matching your criteria</p>
-            <p className="text-[#E8D5A3]/60">Try adjusting your filters</p>
+            <p className="text-[#E8D5A3] text-xl mb-2">No profiles available right now</p>
+            <p className="text-[#E8D5A3]/60">Check back soon for new matches</p>
           </motion.div>
         ) : (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+            className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
           >
             {profiles.map((profile, index) => (
               <motion.div
@@ -246,17 +185,18 @@ export default function Dashboard() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: index * 0.05 }}
               >
-                <div onClick={() => router.push(`/profiles/${profile._id}`)} className="block h-full cursor-pointer">
-                    <div className="profile-card h-full flex flex-col">
-                      <div className="relative overflow-hidden bg-gradient-to-b from-[#2A2522] to-[#1A1715]" style={{ aspectRatio: '4/5' }}>
-                        {profile.profilePhoto && profile.profilePhoto !== '/default-avatar.png' ? (
-                          <img 
-                            src={profile.profilePhoto} 
-                            alt={profile.fullName}
-                            className="w-full h-full object-cover"
-                            onError={(e) => { e.target.src = '/default-avatar.svg'; }}
-                          />
-                        ) : (
+                    <div onClick={() => router.push(`/profiles/${profile._id}`)} className="block h-full cursor-pointer">
+                      <div className="profile-card h-full flex flex-col">
+                        <div className="relative overflow-hidden bg-gradient-to-b from-[#2A2522] to-[#1A1715] rounded-t-2xl" style={{ aspectRatio: '4/5' }}>
+                          {profile.profilePhoto && profile.profilePhoto !== '/default-avatar.png' ? (
+                            <img 
+                              src={profile.profilePhoto} 
+                              alt={profile.fullName}
+                              loading="lazy"
+                              className="w-full h-full object-cover"
+                              onError={(e) => { e.target.src = '/default-avatar.svg'; }}
+                            />
+                          ) : (
                           <div className="w-full h-full flex items-center justify-center">
                             <span className="text-6xl opacity-50">👤</span>
                           </div>
@@ -288,12 +228,12 @@ export default function Dashboard() {
                       <div className="absolute inset-0 bg-gradient-to-t from-[#1A1715] via-transparent to-transparent opacity-80" />
                     </div>
 
-                    <div className="p-4 flex flex-col flex-1">
+                    <div className="p-3 sm:p-4 flex flex-col flex-1">
                       <div className="mb-3">
-                        <h3 className="text-white font-semibold text-lg mb-1 truncate">
+                        <h3 className="text-white font-semibold text-base sm:text-lg mb-1 truncate">
                           {profile.fullName}
                         </h3>
-                        <div className="flex items-center gap-2 text-[#E8D5A3] text-sm">
+                        <div className="flex items-center gap-1.5 text-[#E8D5A3] text-xs sm:text-sm">
                           <span>{profile.category === 'white-female' ? '👩 Woman' : '👨 Man'}</span>
                           <span className="w-1 h-1 bg-[#C9A84C] rounded-full flex-shrink-0" />
                           <span className="truncate">{profile.onlineStatus === 'online' ? 'Online' : 'Offline'}</span>
@@ -303,7 +243,7 @@ export default function Dashboard() {
                       <div className="mt-auto">
                         <button
                           onClick={(e) => handleChatNow(e, profile)}
-                          className="w-full bg-[#22C55E] hover:bg-[#16A34A] text-white font-semibold py-2.5 rounded-xl transition-all duration-300 flex items-center justify-center gap-2"
+                          className="w-full bg-[#22C55E] hover:bg-[#16A34A] text-white font-semibold py-2 sm:py-2.5 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 text-sm sm:text-base"
                         >
                           💬 Chat Now
                         </button>
