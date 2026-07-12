@@ -173,7 +173,7 @@ export default function Dashboard() {
       </header>
 
       {/* Spacer for fixed header */}
-      <div className="h-[34px] lg:h-[30px]" />
+      <div className="h-40 lg:h-36" />
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-2 pb-6 sm:pb-8">
