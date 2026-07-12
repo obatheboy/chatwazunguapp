@@ -107,7 +107,7 @@ export default function Home() {
           className="grid grid-cols-2 gap-4 sm:gap-6 mt-12 sm:mt-20 lg:mt-32 max-w-3xl mx-auto"
         >
           {[
-            { value: '200+', label: 'Beautiful Profiles', icon: '💬' },
+            { value: '500K+', label: 'Users Globally', icon: '🌍' },
             { value: 'KES 3,000+', label: 'Daily Earnings', icon: '💰' },
           ].map((stat, index) => (
             <motion.div
@@ -132,7 +132,7 @@ export default function Home() {
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mt-12 sm:mt-20"
         >
           {[
-            { icon: '💬', title: '200+ Profiles', desc: 'Beautiful European women & men', color: 'from-blue-500/10 to-purple-500/10' },
+            { icon: '🌍', title: '500K+ Users', desc: 'Join over 500K users globally', color: 'from-blue-500/10 to-purple-500/10' },
             { icon: '💰', title: 'Earn KES 3,000+', desc: 'Daily earnings potential', color: 'from-green-500/10 to-emerald-500/10' },
             { icon: '🔓', title: 'KES 99/Unlock', desc: 'M-Pesa payment', color: 'from-yellow-500/10 to-orange-500/10' },
             { icon: '💸', title: 'Instant Withdraw', desc: 'Withdraw immediately after activating account', color: 'from-pink-500/10 to-rose-500/10' },
