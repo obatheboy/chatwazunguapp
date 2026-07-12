@@ -63,74 +63,38 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#1A0F0A] to-[#2D1B1B]">
-      {/* Fixed Professional Top Bar with Cards */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-[#1A0F0A]/98 backdrop-blur-xl border-b border-[#C9A84C]/30 shadow-2xl">
+      {/* Fixed Professional Top Bar - Three Rows */}
+      <header className="fixed top-0 left-0 right-0 z-50 bg-[#1A0F0A]/98 backdrop-blur-xl border-b-2 border-[#C9A84C] shadow-2xl">
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
-          {/* Desktop Cards Row */}
-          <div className="hidden lg:flex items-center justify-between gap-4 py-3">
-            {/* Logo */}
+          {/* Row 1: Logo + ChatWazungu + Logout */}
+          <div className="hidden lg:flex items-center justify-between py-3">
             <Link href="/dashboard" className="flex items-center gap-3 flex-shrink-0">
               <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#C9A84C] to-[#A8893A] flex items-center justify-center shadow-lg shadow-[#C9A84C]/40">
                 <span className="text-xl font-bold text-[#1A0F0A]">CW</span>
               </div>
-              <span className="text-2xl font-bold gold-text">ChatWazungu</span>
+              <span className="text-2xl font-bold gold-text uppercase tracking-wider">ChatWazungu</span>
             </Link>
 
-            {/* Cards Row */}
-            <div className="flex items-center gap-3">
-              {/* Earnings Card */}
-              <div className="bg-gradient-to-br from-[#2A2522] to-[#1A1715] border border-[#C9A84C]/30 rounded-xl px-5 py-3 min-w-[180px] shadow-lg">
-                <p className="text-[#E8D5A3] text-xs font-medium uppercase tracking-wider mb-1">Your Earnings</p>
-                <p className="text-white text-xl font-bold">KES {user.totalEarnings || 0}</p>
-              </div>
-
-              {/* Wallet Balance Card */}
-              <div className="bg-gradient-to-br from-[#2A2522] to-[#1A1715] border border-[#C9A84C]/30 rounded-xl px-5 py-3 min-w-[180px] shadow-lg">
-                <p className="text-[#E8D5A3] text-xs font-medium uppercase tracking-wider mb-1">Wallet Balance</p>
-                <p className="text-[#C9A84C] text-xl font-bold">KES {user.walletBalance || 0}</p>
-              </div>
-
-              {/* Unlocked Card */}
-              <div className="bg-gradient-to-br from-[#2A2522] to-[#1A1715] border border-[#C9A84C]/30 rounded-xl px-5 py-3 min-w-[140px] shadow-lg">
-                <p className="text-[#E8D5A3] text-xs font-medium uppercase tracking-wider mb-1">Unlocked</p>
-                <p className="text-white text-xl font-bold">{user.totalUnlocks || 0}</p>
-              </div>
-
-              {/* Withdraw Card */}
-              <button
-                onClick={handleWithdrawClick}
-                className="bg-gradient-to-r from-[#C9A84C] to-[#E8D5A3] hover:from-[#E8D5A3] hover:to-[#C9A84C] text-[#1A0F0A] font-bold text-base px-6 py-3 rounded-xl shadow-lg shadow-[#C9A84C]/30 hover:shadow-xl hover:shadow-[#C9A84C]/50 transition-all duration-300 border-2 border-[#E8D5A3]"
-              >
-                <span className="flex items-center gap-2">
-                  <span className="text-lg">💰</span>
-                  <span>Withdraw</span>
-                </span>
-              </button>
-
-              {/* Logout */}
-              <button
-                onClick={handleLogout}
-                className="flex items-center gap-2 px-4 py-3 rounded-xl font-medium text-sm text-red-400 hover:text-red-300 hover:bg-red-900/20 transition-all duration-300 border border-red-400/30"
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                </svg>
-                <span>Logout</span>
-              </button>
-            </div>
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl font-medium text-sm text-red-400 hover:text-red-300 hover:bg-red-900/20 transition-all duration-300 border border-red-400/30"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+              </svg>
+              <span>Logout</span>
+            </button>
           </div>
 
-          {/* Mobile/Tablet Header */}
+          {/* Mobile Row 1: Logo + ChatWazungu + Logout */}
           <div className="lg:hidden flex items-center justify-between py-3">
-            {/* Logo */}
             <Link href="/dashboard" className="flex items-center gap-2 flex-shrink-0">
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#C9A84C] to-[#A8893A] flex items-center justify-center shadow-lg shadow-[#C9A84C]/40">
                 <span className="text-lg font-bold text-[#1A0F0A]">CW</span>
               </div>
-              <span className="text-xl font-bold gold-text">ChatWazungu</span>
+              <span className="text-xl font-bold gold-text uppercase tracking-wider">ChatWazungu</span>
             </Link>
 
-            {/* Logout */}
             <button
               onClick={handleLogout}
               className="flex items-center gap-1.5 px-3 py-2 rounded-lg font-medium text-xs text-red-400 hover:text-red-300 hover:bg-red-900/20 transition-all duration-300 border border-red-400/30"
@@ -142,30 +106,56 @@ export default function Dashboard() {
             </button>
           </div>
 
-          {/* Mobile Cards Row */}
-          <div className="lg:hidden grid grid-cols-4 gap-2 pb-3">
-            {/* Earnings Card */}
-            <div className="bg-gradient-to-br from-[#2A2522] to-[#1A1715] border border-[#C9A84C]/30 rounded-xl px-3 py-2.5 shadow-lg">
-              <p className="text-[#E8D5A3] text-[10px] font-medium uppercase tracking-wider mb-1">Earnings</p>
-              <p className="text-white text-sm font-bold">KES {user.totalEarnings || 0}</p>
+          {/* Row 2: Total Earnings + Chats Unlocked */}
+          <div className="hidden lg:grid grid-cols-2 gap-3 pb-3">
+            <div className="bg-gradient-to-br from-[#2A2522] to-[#1A1715] border border-[#C9A84C]/30 rounded-xl px-6 py-3 shadow-lg">
+              <p className="text-[#E8D5A3] text-xs font-medium uppercase tracking-wider mb-1">Total Earnings</p>
+              <p className="text-white text-2xl font-bold">KES {user.totalEarnings || 0}</p>
             </div>
-
-            {/* Wallet Balance Card */}
-            <div className="bg-gradient-to-br from-[#2A2522] to-[#1A1715] border border-[#C9A84C]/30 rounded-xl px-3 py-2.5 shadow-lg">
-              <p className="text-[#E8D5A3] text-[10px] font-medium uppercase tracking-wider mb-1">Wallet</p>
-              <p className="text-[#C9A84C] text-sm font-bold">KES {user.walletBalance || 0}</p>
+            <div className="bg-gradient-to-br from-[#2A2522] to-[#1A1715] border border-[#C9A84C]/30 rounded-xl px-6 py-3 shadow-lg">
+              <p className="text-[#E8D5A3] text-xs font-medium uppercase tracking-wider mb-1">Chats Unlocked</p>
+              <p className="text-white text-2xl font-bold">{user.totalUnlocks || 0}</p>
             </div>
+          </div>
 
-            {/* Unlocked Card */}
-            <div className="bg-gradient-to-br from-[#2A2522] to-[#1A1715] border border-[#C9A84C]/30 rounded-xl px-3 py-2.5 shadow-lg">
-              <p className="text-[#E8D5A3] text-[10px] font-medium uppercase tracking-wider mb-1">Unlocked</p>
-              <p className="text-white text-sm font-bold">{user.totalUnlocks || 0}</p>
+          {/* Mobile Row 2: Total Earnings + Chats Unlocked */}
+          <div className="lg:hidden grid grid-cols-2 gap-2 pb-2">
+            <div className="bg-gradient-to-br from-[#2A2522] to-[#1A1715] border border-[#C9A84C]/30 rounded-xl px-3 py-3 shadow-lg">
+              <p className="text-[#E8D5A3] text-[10px] font-medium uppercase tracking-wider mb-1">Total Earnings</p>
+              <p className="text-white text-lg font-bold">KES {user.totalEarnings || 0}</p>
             </div>
+            <div className="bg-gradient-to-br from-[#2A2522] to-[#1A1715] border border-[#C9A84C]/30 rounded-xl px-3 py-3 shadow-lg">
+              <p className="text-[#E8D5A3] text-[10px] font-medium uppercase tracking-wider mb-1">Chats Unlocked</p>
+              <p className="text-white text-lg font-bold">{user.totalUnlocks || 0}</p>
+            </div>
+          </div>
 
-            {/* Withdraw Card */}
+          {/* Row 3: Wallet Balance + Withdraw */}
+          <div className="hidden lg:grid grid-cols-2 gap-3 pb-3">
+            <div className="bg-gradient-to-br from-[#2A2522] to-[#1A1715] border border-[#C9A84C]/30 rounded-xl px-6 py-3 shadow-lg">
+              <p className="text-[#E8D5A3] text-xs font-medium uppercase tracking-wider mb-1">Wallet Balance</p>
+              <p className="text-[#C9A84C] text-2xl font-bold">KES {user.walletBalance || 0}</p>
+            </div>
             <button
               onClick={handleWithdrawClick}
-              className="bg-gradient-to-r from-[#C9A84C] to-[#E8D5A3] hover:from-[#E8D5A3] hover:to-[#C9A84C] text-[#1A0F0A] font-bold text-xs px-3 py-2.5 rounded-xl shadow-lg shadow-[#C9A84C]/30 transition-all duration-300 border-2 border-[#E8D5A3]"
+              className="bg-gradient-to-r from-[#C9A84C] to-[#E8D5A3] hover:from-[#E8D5A3] hover:to-[#C9A84C] text-[#1A0F0A] font-bold text-base px-6 py-3 rounded-xl shadow-lg shadow-[#C9A84C]/30 hover:shadow-xl hover:shadow-[#C9A84C]/50 transition-all duration-300 border-2 border-[#E8D5A3]"
+            >
+              <span className="flex items-center justify-center gap-2">
+                <span className="text-lg">💰</span>
+                <span>Withdraw</span>
+              </span>
+            </button>
+          </div>
+
+          {/* Mobile Row 3: Wallet Balance + Withdraw */}
+          <div className="lg:hidden grid grid-cols-2 gap-2 pb-3">
+            <div className="bg-gradient-to-br from-[#2A2522] to-[#1A1715] border border-[#C9A84C]/30 rounded-xl px-3 py-3 shadow-lg">
+              <p className="text-[#E8D5A3] text-[10px] font-medium uppercase tracking-wider mb-1">Wallet Balance</p>
+              <p className="text-[#C9A84C] text-lg font-bold">KES {user.walletBalance || 0}</p>
+            </div>
+            <button
+              onClick={handleWithdrawClick}
+              className="bg-gradient-to-r from-[#C9A84C] to-[#E8D5A3] hover:from-[#E8D5A3] hover:to-[#C9A84C] text-[#1A0F0A] font-bold text-sm px-3 py-3 rounded-xl shadow-lg shadow-[#C9A84C]/30 transition-all duration-300 border-2 border-[#E8D5A3]"
             >
               <span className="flex items-center justify-center gap-1">
                 <span>💰</span>
@@ -177,7 +167,7 @@ export default function Dashboard() {
       </header>
 
       {/* Spacer for fixed header */}
-      <div className="h-36 lg:h-24" />
+      <div className="h-52 lg:h-40" />
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
