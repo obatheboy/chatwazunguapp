@@ -214,7 +214,13 @@ export default function Dashboard() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: index * 0.05 }}
               >
-                    <div onClick={() => router.push(`/profiles/${profile._id}`)} className="block h-full cursor-pointer">
+                    <div onClick={() => {
+                      if (profile.isUnlocked) {
+                        router.push(`/profiles/${profile._id}`);
+                      } else {
+                        setActiveProfile(profile);
+                      }
+                    }} className="block h-full cursor-pointer">
                       <div className="profile-card h-full flex flex-col">
                         <div className="relative overflow-hidden bg-gradient-to-b from-[#2A2522] to-[#1A1715] rounded-t-2xl" style={{ aspectRatio: '4/5' }}>
                           <ImageWithLoader
