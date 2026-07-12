@@ -27,7 +27,7 @@ export default function PaymentModal({ isOpen, onClose, profile, onSuccess }) {
     onClose();
   };
 
-  const handleMegaPay = async () => {
+  const handlePay = async () => {
     if (!phoneNumber) {
       toast.error('Please enter your M-Pesa phone number');
       return;
@@ -42,34 +42,13 @@ export default function PaymentModal({ isOpen, onClose, profile, onSuccess }) {
       if (response.data.success) {
         setTransactionRequestId(response.data.transactionRequestId);
         setPaymentStatus('pending');
+        setLoading(false);
         toast.success('STK Push sent! Check your phone and enter PIN.');
       }
     } catch (error) {
-      toast.error(error.response?.data?.message || 'Payment failed');
+      console.error('Payment initiation error:', error);
+      toast.error(error.response?.data?.message || 'Payment failed. Please try again.');
       setPaymentStatus('failed');
-      setLoading(false);
-    }
-  };
-
-  const handleMpesa = async () => {
-    if (!phoneNumber) {
-      toast.error('Please enter your M-Pesa phone number');
-      return;
-    }
-    setLoading(true);
-    try {
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/payments/mpesa/initiate`,
-        { profileId: profile._id, phoneNumber, amount: 99 }
-      );
-      if (response.data.success) {
-        toast.success('M-Pesa STK Push sent! Check your phone.');
-        if (onSuccess) onSuccess();
-        handleClose();
-      }
-    } catch (error) {
-      toast.error(error.response?.data?.message || 'Payment failed');
-    } finally {
       setLoading(false);
     }
   };
@@ -107,21 +86,23 @@ export default function PaymentModal({ isOpen, onClose, profile, onSuccess }) {
             { transactionRequestId }
           );
 
-          if (response.data.status === 'Completed') {
+          const status = response.data.status;
+
+          if (status === 'Completed') {
             clearInterval(interval);
             setPaymentStatus('completed');
             setLoading(false);
-            toast.success('🎉 Payment successful! Profile unlocked!');
+            toast.success('Payment successful! Profile unlocked!');
             if (onSuccess) onSuccess();
             setTimeout(() => {
               handleClose();
               window.location.href = `/chats?profileId=${profile._id}`;
             }, 1500);
-          } else if (response.data.status === 'Failed') {
+          } else if (status === 'Failed') {
             clearInterval(interval);
             setPaymentStatus('failed');
             setLoading(false);
-            toast.error('❌ Payment failed. Please try again.');
+            toast.error('Payment failed. Please try again.');
           }
         } catch (error) {
           console.error('Status check error:', error);
@@ -149,42 +130,30 @@ export default function PaymentModal({ isOpen, onClose, profile, onSuccess }) {
 
           <div className="space-y-3">
             <button
-              onClick={() => setStep('megapay')}
-              className="w-full flex items-center justify-center gap-2 bg-[#22C55E] hover:bg-[#16A34A] text-white font-semibold py-3.5 rounded-xl transition-all duration-300"
+              onClick={() => setStep('pay')}
+              className="w-full flex items-center justify-center gap-2 bg-[#22C55E] hover:bg-[#16A34A] text-white font-bold py-4 rounded-xl transition-all duration-300 text-lg shadow-lg shadow-green-500/30"
             >
-              📱 Pay via M-Pesa (MegaPay)
-            </button>
-            <button
-              onClick={() => setStep('mpesa')}
-              className="w-full flex items-center justify-center gap-2 bg-white/10 hover:bg-white/15 text-white font-semibold py-3.5 rounded-xl transition-all duration-300"
-            >
-              💳 Pay via M-Pesa (Daraja)
+              💳 Tap Here to Pay
             </button>
             <button
               onClick={() => setStep('manual')}
-              className="w-full flex items-center justify-center gap-2 bg-white/10 hover:bg-white/15 text-white font-semibold py-3.5 rounded-xl transition-all duration-300"
+              className="w-full text-[#E8D5A3] hover:text-white py-2 text-sm transition-colors"
             >
-              📝 Manual Payment
-            </button>
-            <button
-              onClick={handleClose}
-              className="w-full text-[#E8D5A3]/60 hover:text-white py-2 text-sm transition-colors"
-            >
-              Cancel
+              Or use Manual Payment
             </button>
           </div>
         </div>
       )}
 
-      {step === 'megapay' && (
+      {step === 'pay' && (
         <div className="p-6">
           <button
             onClick={() => { setStep('options'); setPaymentStatus('idle'); setTransactionRequestId(null); }}
-            className="text-[#E8D5A3] hover:text-white text-sm mb-3 transition-colors"
+            className="text-[#E8D5A3] hover:text-white text-sm mb-4 transition-colors"
           >
             ← Back
           </button>
-          <h3 className="text-white font-bold text-lg mb-4">Pay via M-Pesa (MegaPay)</h3>
+          <h3 className="text-white font-bold text-lg mb-4">Pay KES 99 via M-Pesa</h3>
           <label className="block text-[#E8D5A3] text-sm font-medium mb-2">
             M-Pesa Phone Number
           </label>
@@ -197,11 +166,11 @@ export default function PaymentModal({ isOpen, onClose, profile, onSuccess }) {
             disabled={loading}
           />
           <button
-            onClick={handleMegaPay}
-            disabled={loading}
-            className="w-full btn-primary py-3.5 rounded-xl"
+            onClick={handlePay}
+            disabled={loading || paymentStatus === 'pending'}
+            className="w-full bg-[#22C55E] hover:bg-[#16A34A] text-white font-bold py-4 rounded-xl transition-all duration-300 text-lg shadow-lg shadow-green-500/30 disabled:opacity-50"
           >
-            {loading ? '⏳ Processing...' : 'Send STK Push - KES 99'}
+            {loading ? '⏳ Processing...' : paymentStatus === 'pending' ? '⏳ Waiting for payment...' : 'Tap to Pay - KES 99'}
           </button>
 
           {paymentStatus === 'pending' && (
@@ -229,40 +198,11 @@ export default function PaymentModal({ isOpen, onClose, profile, onSuccess }) {
         </div>
       )}
 
-      {step === 'mpesa' && (
-        <div className="p-6">
-          <button
-            onClick={() => setStep('options')}
-            className="text-[#E8D5A3] hover:text-white text-sm mb-3 transition-colors"
-          >
-            ← Back
-          </button>
-          <h3 className="text-white font-bold text-lg mb-4">Pay via M-Pesa</h3>
-          <label className="block text-[#E8D5A3] text-sm font-medium mb-2">
-            M-Pesa Phone Number
-          </label>
-          <input
-            type="tel"
-            value={phoneNumber}
-            onChange={(e) => setPhoneNumber(e.target.value)}
-            className="input-field mb-5"
-            placeholder="0712345678"
-          />
-          <button
-            onClick={handleMpesa}
-            disabled={loading}
-            className="w-full btn-primary py-3.5 rounded-xl"
-          >
-            {loading ? 'Processing...' : 'Send STK Push - KES 99'}
-          </button>
-        </div>
-      )}
-
       {step === 'manual' && (
         <div className="p-6">
           <button
             onClick={() => setStep('options')}
-            className="text-[#E8D5A3] hover:text-white text-sm mb-3 transition-colors"
+            className="text-[#E8D5A3] hover:text-white text-sm mb-4 transition-colors"
           >
             ← Back
           </button>
