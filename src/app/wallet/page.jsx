@@ -115,7 +115,7 @@ export default function WalletPage() {
           {[
             { label: 'Total Earnings', value: `KES ${user?.totalEarnings || 0}`, sub: 'KES 500 per unlock', icon: '💰' },
             { label: 'Wallet Balance', value: `KES ${user?.walletBalance || 0}`, sub: 'Available to withdraw', icon: '💵' },
-            { label: 'Unlocked Profiles', value: user?.totalUnlocks || 0, sub: user?.canWithdraw ? '✅ Can withdraw' : `🔒 ${6 - (user?.totalUnlocks || 0)} more to withdraw`, icon: '🔓' },
+            { label: 'Unlocked Profiles', value: user?.totalUnlocks || 0, sub: '✅ Withdraw anytime', icon: '🔓' },
           ].map((stat, index) => (
             <motion.div
               key={index}
@@ -145,50 +145,40 @@ export default function WalletPage() {
             <h3 className="text-white font-semibold text-xl">Withdraw Earnings</h3>
           </div>
           <div className="p-6">
-            {!user?.canWithdraw ? (
-              <div className="bg-yellow-600/10 border border-yellow-600/20 rounded-xl p-6 text-center">
-                <div className="text-4xl mb-3">🔒</div>
-                <p className="text-yellow-400 font-medium text-lg mb-1">Unlock 6 profiles to withdraw to M-Pesa</p>
-                <p className="text-[#E8D5A3] text-sm">
-                  You have unlocked {user?.totalUnlocks || 0} profiles. Unlock {6 - (user?.totalUnlocks || 0)} more!
-                </p>
+            <form onSubmit={handleWithdraw} className="space-y-5 max-w-md mx-auto">
+              <div>
+                <label className="block text-[#E8D5A3] text-sm font-medium mb-2">
+                  Withdrawal Amount (KES)
+                </label>
+                <input
+                  type="number"
+                  value={withdrawAmount}
+                  onChange={(e) => setWithdrawAmount(e.target.value)}
+                  className="input-field"
+                  placeholder="Enter amount"
+                  max={user?.walletBalance || 0}
+                />
               </div>
-            ) : (
-              <form onSubmit={handleWithdraw} className="space-y-5 max-w-md mx-auto">
-                <div>
-                  <label className="block text-[#E8D5A3] text-sm font-medium mb-2">
-                    Withdrawal Amount (KES)
-                  </label>
-                  <input
-                    type="number"
-                    value={withdrawAmount}
-                    onChange={(e) => setWithdrawAmount(e.target.value)}
-                    className="input-field"
-                    placeholder="Enter amount"
-                    max={user?.walletBalance || 0}
-                  />
-                </div>
-                <div>
-                  <label className="block text-[#E8D5A3] text-sm font-medium mb-2">
-                    M-Pesa Number
-                  </label>
-                  <input
-                    type="tel"
-                    value={mpesaNumber}
-                    onChange={(e) => setMpesaNumber(e.target.value)}
-                    className="input-field"
-                    placeholder="0712345678"
-                  />
-                </div>
-                <button
-                  type="submit"
-                  disabled={withdrawing}
-                  className="w-full btn-primary py-3.5 rounded-xl"
-                >
-                  {withdrawing ? 'Processing...' : 'Withdraw to M-Pesa'}
-                </button>
-              </form>
-            )}
+              <div>
+                <label className="block text-[#E8D5A3] text-sm font-medium mb-2">
+                  M-Pesa Number
+                </label>
+                <input
+                  type="tel"
+                  value={mpesaNumber}
+                  onChange={(e) => setMpesaNumber(e.target.value)}
+                  className="input-field"
+                  placeholder="0712345678"
+                />
+              </div>
+              <button
+                type="submit"
+                disabled={withdrawing}
+                className="w-full btn-primary py-3.5 rounded-xl"
+              >
+                {withdrawing ? 'Processing...' : 'Withdraw to M-Pesa'}
+              </button>
+            </form>
           </div>
         </motion.div>
 

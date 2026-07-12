@@ -46,11 +46,7 @@ export default function Dashboard() {
   };
 
   const handleWithdrawClick = () => {
-    if ((user?.totalUnlocks || 0) >= 6) {
-      router.push('/wallet');
-    } else {
-      setShowWithdrawModal(true);
-    }
+    router.push('/wallet');
   };
 
   const handleChatNow = (e, profile) => {
@@ -269,15 +265,15 @@ export default function Dashboard() {
         )}
       </main>
 
-      {/* Withdraw notification (before 6 unlocks) */}
+      {/* Withdraw notification */}
       <Modal isOpen={showWithdrawModal} onClose={() => setShowWithdrawModal(false)}>
         <div className="p-6 text-center">
-          <div className="text-4xl mb-3">🔒</div>
+          <div className="text-4xl mb-3">💰</div>
           <p className="text-white font-medium text-lg mb-2">
-            Activate at least 6 chats to be able to withdraw.
+            Withdraw immediately after activating your account.
           </p>
           <p className="text-[#E8D5A3]">
-            You have activated {user?.totalUnlocks || 0} chats.
+            Your earnings are ready for withdrawal anytime.
           </p>
           <button
             onClick={() => setShowWithdrawModal(false)}
