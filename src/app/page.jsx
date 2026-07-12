@@ -109,7 +109,6 @@ export default function Home() {
           {[
             { value: '200+', label: 'Beautiful Profiles', icon: '💬' },
             { value: 'KES 3,000+', label: 'Daily Earnings', icon: '💰' },
-            { value: 'KES 99', label: 'Per Unlock', icon: '🔓' },
           ].map((stat, index) => (
             <motion.div
               key={index}
