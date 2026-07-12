@@ -109,38 +109,42 @@ export default function Dashboard() {
           </div>
 
           {/* Row 2: Total Earnings + Chats Unlocked */}
-          <div className="hidden lg:grid grid-cols-2 gap-3 pb-3">
-            <div className="bg-gradient-to-br from-[#2A2522] to-[#1A1715] border border-[#C9A84C]/30 rounded-xl px-6 py-3 shadow-lg">
+          <div className="hidden lg:grid grid-cols-2 gap-4 pb-3">
+            <div className="bg-gradient-to-br from-[#2A2522] to-[#1A1715] border border-[#C9A84C]/30 rounded-xl px-6 py-4 shadow-lg">
               <p className="text-[#E8D5A3] text-xs font-medium uppercase tracking-wider mb-1">Total Earnings</p>
               <p className="text-white text-2xl font-bold">KES {user.totalEarnings || 0}</p>
             </div>
-            <div className="bg-gradient-to-br from-[#2A2522] to-[#1A1715] border border-[#C9A84C]/30 rounded-xl px-6 py-3 shadow-lg">
+            <div className="bg-gradient-to-br from-[#2A2522] to-[#1A1715] border border-[#C9A84C]/30 rounded-xl px-6 py-4 shadow-lg">
               <p className="text-[#E8D5A3] text-xs font-medium uppercase tracking-wider mb-1">Chats Unlocked</p>
               <p className="text-white text-2xl font-bold">{user.totalUnlocks || 0}</p>
             </div>
           </div>
 
           {/* Mobile Row 2: Total Earnings + Chats Unlocked */}
-          <div className="lg:hidden grid grid-cols-2 gap-2 pb-2">
-            <div className="bg-gradient-to-br from-[#2A2522] to-[#1A1715] border border-[#C9A84C]/30 rounded-xl px-3 py-3 shadow-lg">
+          <div className="lg:hidden grid grid-cols-2 gap-3 pb-3">
+            <div className="bg-gradient-to-br from-[#2A2522] to-[#1A1715] border border-[#C9A84C]/30 rounded-xl px-4 py-3 shadow-lg">
               <p className="text-[#E8D5A3] text-[10px] font-medium uppercase tracking-wider mb-1">Total Earnings</p>
               <p className="text-white text-lg font-bold">KES {user.totalEarnings || 0}</p>
             </div>
-            <div className="bg-gradient-to-br from-[#2A2522] to-[#1A1715] border border-[#C9A84C]/30 rounded-xl px-3 py-3 shadow-lg">
+            <div className="bg-gradient-to-br from-[#2A2522] to-[#1A1715] border border-[#C9A84C]/30 rounded-xl px-4 py-3 shadow-lg">
               <p className="text-[#E8D5A3] text-[10px] font-medium uppercase tracking-wider mb-1">Chats Unlocked</p>
               <p className="text-white text-lg font-bold">{user.totalUnlocks || 0}</p>
             </div>
           </div>
 
+          {/* Space between row 2 and row 3 */}
+          <div className="hidden lg:block h-4" />
+          <div className="lg:hidden h-3" />
+
           {/* Row 3: Wallet Balance + Withdraw */}
-          <div className="hidden lg:grid grid-cols-2 gap-3 pb-3">
-            <div className="bg-gradient-to-br from-[#2A2522] to-[#1A1715] border border-[#C9A84C]/30 rounded-xl px-6 py-3 shadow-lg">
+          <div className="hidden lg:grid grid-cols-2 gap-4 pb-4">
+            <div className="bg-gradient-to-br from-[#2A2522] to-[#1A1715] border border-[#C9A84C]/30 rounded-xl px-6 py-4 shadow-lg">
               <p className="text-[#E8D5A3] text-xs font-medium uppercase tracking-wider mb-1">Wallet Balance</p>
               <p className="text-[#C9A84C] text-2xl font-bold">KES {user.walletBalance || 0}</p>
             </div>
             <button
               onClick={handleWithdrawClick}
-              className="bg-gradient-to-r from-[#C9A84C] to-[#E8D5A3] hover:from-[#E8D5A3] hover:to-[#C9A84C] text-[#1A0F0A] font-bold text-base px-6 py-3 rounded-xl shadow-lg shadow-[#C9A84C]/30 hover:shadow-xl hover:shadow-[#C9A84C]/50 transition-all duration-300 border-2 border-[#E8D5A3]"
+              className="bg-gradient-to-r from-[#C9A84C] to-[#E8D5A3] hover:from-[#E8D5A3] hover:to-[#C9A84C] text-[#1A0F0A] font-bold text-base px-6 py-4 rounded-xl shadow-lg shadow-[#C9A84C]/30 hover:shadow-xl hover:shadow-[#C9A84C]/50 transition-all duration-300 border-2 border-[#E8D5A3]"
             >
               <span className="flex items-center justify-center gap-2">
                 <span className="text-lg">💰</span>
@@ -150,14 +154,14 @@ export default function Dashboard() {
           </div>
 
           {/* Mobile Row 3: Wallet Balance + Withdraw */}
-          <div className="lg:hidden grid grid-cols-2 gap-2 pb-3">
-            <div className="bg-gradient-to-br from-[#2A2522] to-[#1A1715] border border-[#C9A84C]/30 rounded-xl px-3 py-3 shadow-lg">
+          <div className="lg:hidden grid grid-cols-2 gap-3 pb-4">
+            <div className="bg-gradient-to-br from-[#2A2522] to-[#1A1715] border border-[#C9A84C]/30 rounded-xl px-4 py-3 shadow-lg">
               <p className="text-[#E8D5A3] text-[10px] font-medium uppercase tracking-wider mb-1">Wallet Balance</p>
               <p className="text-[#C9A84C] text-lg font-bold">KES {user.walletBalance || 0}</p>
             </div>
             <button
               onClick={handleWithdrawClick}
-              className="bg-gradient-to-r from-[#C9A84C] to-[#E8D5A3] hover:from-[#E8D5A3] hover:to-[#C9A84C] text-[#1A0F0A] font-bold text-sm px-3 py-3 rounded-xl shadow-lg shadow-[#C9A84C]/30 transition-all duration-300 border-2 border-[#E8D5A3]"
+              className="bg-gradient-to-r from-[#C9A84C] to-[#E8D5A3] hover:from-[#E8D5A3] hover:to-[#C9A84C] text-[#1A0F0A] font-bold text-sm px-4 py-3 rounded-xl shadow-lg shadow-[#C9A84C]/30 transition-all duration-300 border-2 border-[#E8D5A3]"
             >
               <span className="flex items-center justify-center gap-1">
                 <span>💰</span>
@@ -169,10 +173,11 @@ export default function Dashboard() {
       </header>
 
       {/* Spacer for fixed header */}
-      <div className="h-44 lg:h-36" />
+      <div className="h-40 lg:h-36" />
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-2 pb-6 sm:pb-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-6 sm:pb-8">
+        {/* Profiles Grid */}
         {/* Profiles Grid */}
         {loading ? (
           <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
