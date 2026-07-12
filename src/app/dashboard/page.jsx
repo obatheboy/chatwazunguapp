@@ -14,7 +14,8 @@ export default function Dashboard() {
   const { user, isAuthenticated, logout, refreshUser } = useAuth();
   const router = useRouter();
   const [profiles, setProfiles] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [initialLoading, setInitialLoading] = useState(true);
   const [showWithdrawModal, setShowWithdrawModal] = useState(false);
   const [activeProfile, setActiveProfile] = useState(null);
 
@@ -35,9 +36,10 @@ export default function Dashboard() {
       setProfiles(response.data.profiles || []);
     } catch (error) {
       console.error('Error fetching profiles:', error);
-      setProfiles([]);
+      if (profiles.length === 0) setProfiles([]);
     } finally {
       setLoading(false);
+      setInitialLoading(false);
     }
   }
 
@@ -52,6 +54,13 @@ export default function Dashboard() {
     } else {
       router.push('/wallet');
     }
+  };
+
+  const getUserUnlockButtonText = () => {
+    const totalUnlocks = user?.totalUnlocks || 0;
+    if (totalUnlocks >= 6) return 'Withdraw';
+    const remaining = 6 - totalUnlocks;
+    return `Unlock ${remaining} more chat${remaining !== 1 ? 's' : ''}`;
   };
 
   const handleChatNow = (e, profile) => {
@@ -151,8 +160,8 @@ export default function Dashboard() {
               className="bg-gradient-to-r from-[#C9A84C] to-[#E8D5A3] hover:from-[#E8D5A3] hover:to-[#C9A84C] text-[#1A0F0A] font-bold text-base px-6 py-4 rounded-xl shadow-lg shadow-[#C9A84C]/30 hover:shadow-xl hover:shadow-[#C9A84C]/50 transition-all duration-300 border-2 border-[#E8D5A3]"
             >
               <span className="flex items-center justify-center gap-2">
-                <span className="text-lg">💰</span>
-                <span>Withdraw</span>
+                <span className="text-lg">💬</span>
+                <span>{getUserUnlockButtonText()}</span>
               </span>
             </button>
           </div>
@@ -168,8 +177,8 @@ export default function Dashboard() {
               className="bg-gradient-to-r from-[#C9A84C] to-[#E8D5A3] hover:from-[#E8D5A3] hover:to-[#C9A84C] text-[#1A0F0A] font-bold text-sm px-4 py-3 rounded-xl shadow-lg shadow-[#C9A84C]/30 transition-all duration-300 border-2 border-[#E8D5A3]"
             >
               <span className="flex items-center justify-center gap-1">
-                <span>💰</span>
-                <span>Withdraw</span>
+                <span>💬</span>
+                <span>{getUserUnlockButtonText()}</span>
               </span>
             </button>
           </div>
@@ -181,15 +190,14 @@ export default function Dashboard() {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-2 pb-6 sm:pb-8">
-        {/* Profiles Grid */}
-        {/* Profiles Grid */}
-        {loading ? (
-          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {[...Array(8)].map((_, i) => (
-              <div key={i} className="rounded-2xl h-80 shimmer" />
-            ))}
-          </div>
-        ) : profiles.length === 0 ? (
+      {/* Profiles Grid */}
+      {initialLoading ? (
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          {[...Array(8)].map((_, i) => (
+            <div key={i} className="rounded-2xl h-80 shimmer" />
+          ))}
+        </div>
+      ) : profiles.length === 0 ? (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

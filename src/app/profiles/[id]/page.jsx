@@ -41,7 +41,10 @@ export default function ProfileDetail() {
     } catch (error) {
       console.error('Error fetching profile:', error);
       if (error.response?.status === 404) {
+        toast.error('Profile not found');
         router.push('/dashboard');
+      } else {
+        toast.error(error.response?.data?.message || 'Failed to load profile');
       }
     } finally {
       setLoading(false);
@@ -198,7 +201,6 @@ export default function ProfileDetail() {
 
                     <button
                       onClick={handleUnlock}
-                      disabled={paymentLoading}
                       className="w-full btn-primary py-3.5 rounded-xl text-base"
                     >
                       🔓 Unlock Profile - KES 99

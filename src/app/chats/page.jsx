@@ -118,7 +118,15 @@ function ChatContent() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#1A0F0A] to-[#2D1B1B]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <h1 className="text-3xl font-bold gold-text mb-6">Messages</h1>
+        <div className="flex items-center justify-between mb-6">
+          <h1 className="text-3xl font-bold gold-text">Messages</h1>
+          <Link
+            href="/dashboard"
+            className="btn-primary px-4 py-2 rounded-xl text-sm font-semibold"
+          >
+            ← Dashboard
+          </Link>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 h-[600px]">
           {/* Conversations List */}
