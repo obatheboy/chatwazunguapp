@@ -118,7 +118,7 @@ export default function EditProfile() {
                 onChange={handleChange}
                 className="input-field cursor-pointer"
               >
-                <option value="">Select county</option>
+                <option value="">Select city</option>
                 {counties.map((county) => (
                   <option key={county} value={county}>{county}</option>
                 ))}

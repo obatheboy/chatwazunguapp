@@ -105,12 +105,12 @@ export default function SearchPage() {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 className="input-field"
-                placeholder="Search by name, bio, or county..."
+                placeholder="Search by name, bio, or city..."
               />
             </div>
             <div>
               <label className="block text-[#E8D5A3] text-sm font-medium mb-2">
-                County
+                City
               </label>
               <select
                 value={county}
