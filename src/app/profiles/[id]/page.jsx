@@ -7,6 +7,7 @@ import { motion } from 'framer-motion';
 import axios from '@/utils/axios';
 import Link from 'next/link';
 import { toast } from 'react-hot-toast';
+import ImageWithLoader from '@/components/ImageWithLoader';
 
 export default function ProfileDetail() {
   const { isAuthenticated, user } = useAuth();
@@ -110,18 +111,11 @@ export default function ProfileDetail() {
             <div className="md:flex">
               {/* Image Section */}
               <div className="md:w-1/2 relative aspect-square md:aspect-auto md:h-[600px] overflow-hidden">
-                {profile.profilePhoto && profile.profilePhoto !== '/default-avatar.png' ? (
-                  <img 
-                    src={profile.profilePhoto} 
-                    alt={profile.fullName}
-                    className="w-full h-full object-cover"
-                    onError={(e) => { e.target.src = '/default-avatar.svg'; }}
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-[#2A2522] to-[#1A1715]">
-                    <span className="text-8xl opacity-30">👤</span>
-                  </div>
-                )}
+                <ImageWithLoader
+                  src={profile.profilePhoto}
+                  alt={profile.fullName}
+                  onError={(e) => { e.target.src = '/default-avatar.svg'; }}
+                />
                 
                 {/* Gradient overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-[#1A1715]/80 via-transparent to-transparent md:bg-gradient-to-r" />

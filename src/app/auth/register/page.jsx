@@ -15,6 +15,7 @@ export default function Register() {
     fullName: '',
     phoneNumber: ''
   });
+  const [showExistingError, setShowExistingError] = useState(false);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -25,6 +26,7 @@ export default function Register() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+    if (showExistingError) setShowExistingError(false);
   };
 
   const handleSubmit = async (e) => {
@@ -46,7 +48,7 @@ export default function Register() {
       if (result.success) {
         router.push('/dashboard');
       } else if (result.error === 'Phone number already registered') {
-        router.push('/dashboard');
+        setShowExistingError(true);
       }
     } finally {
       setLoading(false);
@@ -79,6 +81,27 @@ export default function Register() {
           <h1 className="text-3xl sm:text-4xl font-bold gold-text mb-2">ChatWazungu</h1>
           <p className="text-[#E8D5A3]">Chat with beautiful people worldwide</p>
         </div>
+
+        {showExistingError && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-6 p-4 rounded-xl bg-yellow-600/10 border border-yellow-600/30"
+          >
+            <p className="text-yellow-400 text-sm font-medium mb-2">
+              Your number is already registered.
+            </p>
+            <p className="text-[#E8D5A3] text-sm mb-3">
+              Enter your number to log in instead.
+            </p>
+            <button
+              onClick={() => router.push('/auth/login')}
+              className="w-full btn-primary py-2.5 rounded-xl text-sm"
+            >
+              Go to Login
+            </button>
+          </motion.div>
+        )}
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>

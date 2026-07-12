@@ -8,6 +8,7 @@ import axios from '@/utils/axios';
 import Link from 'next/link';
 import Modal from '@/components/Modal';
 import PaymentModal from '@/components/PaymentModal';
+import ImageWithLoader from '@/components/ImageWithLoader';
 
 export default function Dashboard() {
   const { user, isAuthenticated, logout, refreshUser } = useAuth();
@@ -77,18 +78,18 @@ export default function Dashboard() {
             {/* Stats Bar */}
             <div className="hidden lg:flex items-center gap-6">
               <div className="flex items-center gap-2">
-                <span className="text-[#E8D5A3] text-sm">Your Earnings</span>
-                <span className="text-white font-bold text-lg">KES {user.totalEarnings || 0}</span>
+                <span className="text-[#E8D5A3] text-base font-medium">Your Earnings</span>
+                <span className="text-white font-bold text-xl">KES {user.totalEarnings || 0}</span>
               </div>
               <div className="w-px h-8 bg-[#C9A84C]/20" />
               <div className="flex items-center gap-2">
-                <span className="text-[#E8D5A3] text-sm">Wallet</span>
-                <span className="text-[#C9A84C] font-bold text-lg">KES {user.walletBalance || 0}</span>
+                <span className="text-[#E8D5A3] text-base font-medium">Wallet</span>
+                <span className="text-[#C9A84C] font-bold text-xl">KES {user.walletBalance || 0}</span>
               </div>
               <div className="w-px h-8 bg-[#C9A84C]/20" />
               <div className="flex items-center gap-2">
-                <span className="text-[#E8D5A3] text-sm">Unlocked</span>
-                <span className="text-white font-bold text-lg">{user.totalUnlocks || 0}</span>
+                <span className="text-[#E8D5A3] text-base font-medium">Unlocked</span>
+                <span className="text-white font-bold text-xl">{user.totalUnlocks || 0}</span>
               </div>
             </div>
 
@@ -96,14 +97,14 @@ export default function Dashboard() {
             <div className="flex items-center gap-2 sm:gap-3">
               <button
                 onClick={handleWithdrawClick}
-                className="hidden sm:flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-xl font-semibold text-sm text-[#1A0F0A] bg-gradient-to-r from-[#C9A84C] to-[#E8D5A3] hover:shadow-lg hover:shadow-[#C9A84C]/40 transition-all duration-300"
+                className="hidden sm:flex items-center gap-1.5 px-4 sm:px-5 py-2 rounded-lg font-semibold text-sm text-[#1A0F0A] bg-gradient-to-r from-[#C9A84C] to-[#E8D5A3] hover:shadow-lg hover:shadow-[#C9A84C]/40 transition-all duration-300"
               >
                 <span>💰</span>
                 <span>Withdraw</span>
               </button>
               <button
                 onClick={handleLogout}
-                className="flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-xl font-medium text-sm text-red-400 hover:text-red-300 hover:bg-red-900/20 transition-all duration-300"
+                className="flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-lg font-medium text-sm text-red-400 hover:text-red-300 hover:bg-red-900/20 transition-all duration-300"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
@@ -148,15 +149,15 @@ export default function Dashboard() {
         <div className="lg:hidden glass-card rounded-2xl p-4 mb-6">
           <div className="grid grid-cols-3 gap-3">
             <div className="text-center">
-              <p className="text-[#E8D5A3] text-xs">Your Earnings</p>
+              <p className="text-[#E8D5A3] text-xs font-medium">Your Earnings</p>
               <p className="text-white text-lg font-bold">KES {user.totalEarnings || 0}</p>
             </div>
             <div className="text-center border-x border-[#C9A84C]/20">
-              <p className="text-[#E8D5A3] text-xs">Wallet Balance</p>
+              <p className="text-[#E8D5A3] text-xs font-medium">Wallet Balance</p>
               <p className="text-[#C9A84C] text-lg font-bold">KES {user.walletBalance || 0}</p>
             </div>
             <div className="text-center">
-              <p className="text-[#E8D5A3] text-xs">Unlocked</p>
+              <p className="text-[#E8D5A3] text-xs font-medium">Unlocked</p>
               <p className="text-white text-lg font-bold">{user.totalUnlocks || 0}</p>
             </div>
           </div>
@@ -196,19 +197,11 @@ export default function Dashboard() {
                     <div onClick={() => router.push(`/profiles/${profile._id}`)} className="block h-full cursor-pointer">
                       <div className="profile-card h-full flex flex-col">
                         <div className="relative overflow-hidden bg-gradient-to-b from-[#2A2522] to-[#1A1715] rounded-t-2xl" style={{ aspectRatio: '4/5' }}>
-                          {profile.profilePhoto && profile.profilePhoto !== '/default-avatar.png' ? (
-                            <img 
-                              src={profile.profilePhoto} 
-                              alt={profile.fullName}
-                              loading="lazy"
-                              className="w-full h-full object-cover"
-                              onError={(e) => { e.target.src = '/default-avatar.svg'; }}
-                            />
-                          ) : (
-                          <div className="w-full h-full flex items-center justify-center">
-                            <span className="text-6xl opacity-50">👤</span>
-                          </div>
-                        )}
+                          <ImageWithLoader
+                            src={profile.profilePhoto}
+                            alt={profile.fullName}
+                            onError={(e) => { e.target.src = '/default-avatar.svg'; }}
+                          />
 
                       {profile.onlineStatus === 'online' && (
                         <div className="absolute top-3 right-3 flex items-center gap-1.5 badge badge-online">
@@ -251,7 +244,7 @@ export default function Dashboard() {
                       <div className="mt-auto">
                         <button
                           onClick={(e) => handleChatNow(e, profile)}
-                          className="w-full bg-[#22C55E] hover:bg-[#16A34A] text-white font-bold py-4 sm:py-5 rounded-xl text-base sm:text-lg transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-green-500/30 hover:shadow-xl hover:shadow-green-500/40 hover:scale-[1.02]"
+                          className="w-full bg-[#22C55E] hover:bg-[#16A34A] text-white font-bold py-5 sm:py-6 rounded-xl text-lg sm:text-xl transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-green-500/30 hover:shadow-xl hover:shadow-green-500/40 hover:scale-[1.02]"
                         >
                           💬 Chat Now
                         </button>

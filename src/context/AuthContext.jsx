@@ -53,10 +53,6 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       const message = error.response?.data?.message || 'Registration failed';
       if (message === 'Phone number already registered') {
-        toast.success('Welcome back! Redirecting to dashboard...');
-        setTimeout(() => {
-          router.push('/dashboard');
-        }, 500);
         return { success: false, error: message, isExisting: true };
       }
       toast.error(message);

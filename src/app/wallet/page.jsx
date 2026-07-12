@@ -7,6 +7,7 @@ import { motion } from 'framer-motion';
 import axios from '@/utils/axios';
 import Link from 'next/link';
 import { toast } from 'react-hot-toast';
+import ImageWithLoader from '@/components/ImageWithLoader';
 
 export default function WalletPage() {
   const { user, isAuthenticated, logout } = useAuth();
@@ -205,11 +206,11 @@ export default function WalletPage() {
                     <div className="glass-card glass-card-hover p-4 cursor-pointer">
                       <div className="flex items-center gap-3">
                         <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#C9A84C]/20 to-[#A8893A]/10 flex items-center justify-center overflow-hidden border border-[#C9A84C]/20">
-                          {item.unlockedUserId.profilePhoto && item.unlockedUserId.profilePhoto !== '/default-avatar.png' ? (
-                            <img src={item.unlockedUserId.profilePhoto} alt="" className="w-full h-full object-cover" onError={(e) => { e.target.src = '/default-avatar.svg'; }} />
-                          ) : (
-                            <span className="text-xl">👤</span>
-                          )}
+                          <ImageWithLoader
+                            src={item.unlockedUserId.profilePhoto}
+                            alt=""
+                            onError={(e) => { e.target.src = '/default-avatar.svg'; }}
+                          />
                         </div>
                         <div>
                           <p className="text-white font-medium">{item.unlockedUserId.fullName}</p>

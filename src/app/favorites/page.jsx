@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import axios from '@/utils/axios';
 import Link from 'next/link';
+import ImageWithLoader from '@/components/ImageWithLoader';
 
 export default function FavoritesPage() {
   const { isAuthenticated } = useAuth();
@@ -96,14 +97,12 @@ export default function FavoritesPage() {
                 <div onClick={() => router.push(`/profiles/${profile._id}`)} className="block h-full cursor-pointer">
                   <div className="profile-card h-full flex flex-col">
                   <div className="relative overflow-hidden bg-gradient-to-b from-[#2A2522] to-[#1A1715]" style={{ aspectRatio: '4/5' }}>
-                    {profile.profilePhoto && profile.profilePhoto !== '/default-avatar.png' ? (
-                      <img src={profile.profilePhoto} alt={profile.fullName} className="w-full h-full object-cover" onError={(e) => { e.target.src = '/default-avatar.svg'; }} />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center">
-                        <span className="text-6xl opacity-50">👤</span>
-                      </div>
-                    )}
-                      {profile.isVerified && (
+                    <ImageWithLoader
+                      src={profile.profilePhoto}
+                      alt={profile.fullName}
+                      onError={(e) => { e.target.src = '/default-avatar.svg'; }}
+                    />
+                    {profile.isVerified && (
                         <div className="absolute top-3 left-3 badge badge-verified">
                           ✓ Verified
                         </div>

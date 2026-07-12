@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import axios from '@/utils/axios';
 import { toast } from 'react-hot-toast';
 import Link from 'next/link';
+import ImageWithLoader from '@/components/ImageWithLoader';
 
 function ChatContent() {
   const { user, isAuthenticated } = useAuth();
@@ -149,11 +150,11 @@ function ChatContent() {
                   >
                     <div className="flex items-center gap-3">
                       <div className="relative w-12 h-12 rounded-full bg-gradient-to-br from-[#C9A84C]/20 to-[#A8893A]/10 flex items-center justify-center overflow-hidden border border-[#C9A84C]/20 flex-shrink-0">
-                        {chat.profileId.profilePhoto && chat.profileId.profilePhoto !== '/default-avatar.png' ? (
-                          <img src={chat.profileId.profilePhoto} alt="" className="w-full h-full object-cover" onError={(e) => { e.target.src = '/default-avatar.svg'; }} />
-                        ) : (
-                          <span className="text-xl">👤</span>
-                        )}
+                        <ImageWithLoader
+                          src={chat.profileId.profilePhoto}
+                          alt=""
+                          onError={(e) => { e.target.src = '/default-avatar.svg'; }}
+                        />
                         {chat.profileId.onlineStatus === 'online' && (
                           <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-500 rounded-full border-2 border-[#1A1715]" />
                         )}
@@ -186,11 +187,11 @@ function ChatContent() {
                     </svg>
                   </Link>
                   <div className="relative w-10 h-10 rounded-full bg-gradient-to-br from-[#C9A84C]/20 to-[#A8893A]/10 flex items-center justify-center overflow-hidden border border-[#C9A84C]/20">
-                    {activeProfile.profilePhoto && activeProfile.profilePhoto !== '/default-avatar.png' ? (
-                      <img src={activeProfile.profilePhoto} alt="" className="w-full h-full object-cover" onError={(e) => { e.target.src = '/default-avatar.svg'; }} />
-                    ) : (
-                      <span className="text-lg">👤</span>
-                    )}
+                    <ImageWithLoader
+                      src={activeProfile.profilePhoto}
+                      alt=""
+                      onError={(e) => { e.target.src = '/default-avatar.svg'; }}
+                    />
                   </div>
                   <div>
                     <h3 className="text-white font-semibold">{activeProfile.fullName}</h3>
