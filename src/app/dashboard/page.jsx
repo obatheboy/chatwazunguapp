@@ -258,9 +258,9 @@ export default function Dashboard() {
 
                     <div className="p-3 sm:p-4 flex flex-col flex-1">
                       <div className="mb-3">
-                        <h3 className="text-white font-semibold text-base sm:text-lg mb-1 truncate">
-                          {profile.fullName}
-                        </h3>
+                        <div className="text-[#C9A84C] font-bold text-base sm:text-lg mb-1 tracking-wide">
+                          EARN 500 AFTER CHAT
+                        </div>
                         <div className="flex items-center gap-1.5 text-[#E8D5A3] text-xs sm:text-sm">
                           <span className="truncate">{profile.onlineStatus === 'online' ? 'Online' : 'Offline'}</span>
                         </div>
