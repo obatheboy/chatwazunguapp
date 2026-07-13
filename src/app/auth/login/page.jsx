@@ -7,7 +7,7 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 
 export default function Login() {
-  const { login, isAuthenticated } = useAuth();
+  const { login, isAuthenticated, isActivated } = useAuth();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -16,9 +16,13 @@ export default function Login() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      router.push('/dashboard');
+      if (isActivated) {
+        router.push('/dashboard');
+      } else {
+        router.push('/activation');
+      }
     }
-  }, [isAuthenticated, router]);
+  }, [isAuthenticated, isActivated, router]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -33,6 +37,8 @@ export default function Login() {
     
     if (result.success) {
       router.push('/dashboard');
+    } else if (result.requiresActivation) {
+      router.push('/activation');
     }
   };
 

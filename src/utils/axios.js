@@ -27,6 +27,8 @@ axiosInstance.interceptors.response.use(
       localStorage.removeItem('token');
       localStorage.removeItem('user');
       window.location.href = '/auth/login';
+    } else if (error.response?.status === 403 && error.response?.data?.requiresActivation) {
+      window.location.href = '/activation';
     }
     return Promise.reject(error);
   }

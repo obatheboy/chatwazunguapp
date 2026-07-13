@@ -8,7 +8,7 @@ import axios from 'axios';
 import Link from 'next/link';
 
 export default function Register() {
-  const { register, isAuthenticated } = useAuth();
+  const { register, isAuthenticated, isActivated } = useAuth();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -18,9 +18,13 @@ export default function Register() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      router.push('/dashboard');
+      if (isActivated) {
+        router.push('/dashboard');
+      } else {
+        router.push('/activation');
+      }
     }
-  }, [isAuthenticated, router]);
+  }, [isAuthenticated, isActivated, router]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -44,7 +48,7 @@ export default function Register() {
     try {
       const result = await register(formData);
       if (result.success) {
-        router.push('/dashboard');
+        router.push('/activation');
       } else if (result.error === 'Phone number already registered') {
         router.push('/auth/login');
       }

@@ -90,8 +90,13 @@ export const AuthProvider = ({ children }) => {
         return { success: true };
       }
     } catch (error) {
-      toast.error(error.response?.data?.message || 'Login failed');
-      return { success: false, error: error.response?.data?.message };
+      const message = error.response?.data?.message || 'Login failed';
+      if (error.response?.data?.requiresActivation) {
+        toast.error('Please activate your account first');
+        return { success: false, error: message, requiresActivation: true };
+      }
+      toast.error(message);
+      return { success: false, error: message };
     }
   };
 
@@ -125,7 +130,8 @@ export const AuthProvider = ({ children }) => {
     login,
     logout,
     refreshUser,
-    isAuthenticated: !!user && !!token
+    isAuthenticated: !!user && !!token,
+    isActivated: user?.isActivated || false
   };
 
   return (

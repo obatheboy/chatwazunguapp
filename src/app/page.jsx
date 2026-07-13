@@ -12,9 +12,13 @@ export default function Home() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      router.push('/dashboard')
+      if (isActivated) {
+        router.push('/dashboard');
+      } else {
+        router.push('/activation');
+      }
     }
-  }, [isAuthenticated, router])
+  }, [isAuthenticated, isActivated, router]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#1A0F0A] via-[#1A0F0A] to-[#2D1B1B] relative overflow-hidden cursor-pointer" onClick={() => router.push('/auth/register')}>

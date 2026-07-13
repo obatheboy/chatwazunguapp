@@ -24,8 +24,12 @@ export default function Dashboard() {
       router.push('/auth/login');
       return;
     }
+    if (!isActivated) {
+      router.push('/activation');
+      return;
+    }
     fetchProfiles();
-  }, [isAuthenticated, router]);
+  }, [isAuthenticated, isActivated, router]);
 
   async function fetchProfiles() {
     try {
