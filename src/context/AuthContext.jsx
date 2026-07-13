@@ -15,6 +15,20 @@ export const useAuth = () => {
   return context;
 };
 
+const getStoredAuth = () => {
+  if (typeof window === 'undefined') return { token: null, user: null };
+  try {
+    const storedToken = localStorage.getItem('token');
+    const storedUser = localStorage.getItem('user');
+    if (storedToken && storedUser) {
+      return { token: storedToken, user: JSON.parse(storedUser) };
+    }
+  } catch {
+    // ignore parse errors
+  }
+  return { token: null, user: null };
+};
+
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -22,13 +36,11 @@ export const AuthProvider = ({ children }) => {
   const router = useRouter();
 
   useEffect(() => {
-    const storedToken = localStorage.getItem('token');
-    const storedUser = localStorage.getItem('user');
-    
-    if (storedToken && storedUser) {
-      setToken(storedToken);
-      setUser(JSON.parse(storedUser));
-      axios.defaults.headers.common['Authorization'] = `Bearer ${storedToken}`;
+    const stored = getStoredAuth();
+    if (stored.token && stored.user) {
+      setToken(stored.token);
+      setUser(stored.user);
+      axios.defaults.headers.common['Authorization'] = `Bearer ${stored.token}`;
     }
     setLoading(false);
   }, []);

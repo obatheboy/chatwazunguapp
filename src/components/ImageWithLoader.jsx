@@ -16,6 +16,7 @@ export default function ImageWithLoader({ src, alt, className, onError, ...props
           src={src}
           alt={alt}
           loading="lazy"
+          decoding="async"
           className={`w-full h-full object-cover transition-opacity duration-300 ${loaded ? 'opacity-100' : 'opacity-0'}`}
           onLoad={() => setLoaded(true)}
           onError={(e) => {

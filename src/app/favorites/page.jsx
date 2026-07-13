@@ -92,9 +92,9 @@ export default function FavoritesPage() {
             {profiles.map((profile, index) => (
               <motion.div
                 key={profile._id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: index * 0.05 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3, delay: Math.min(index * 0.03, 0.3) }}
               >
                 <div onClick={() => router.push(`/profiles/${profile._id}`)} className="block h-full cursor-pointer">
                   <div className="profile-card h-full flex flex-col">
