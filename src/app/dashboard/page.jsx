@@ -33,16 +33,7 @@ export default function Dashboard() {
       const response = await axios.get(
         `${process.env.NEXT_PUBLIC_API_URL}/profiles`
       );
-      let profilesList = response.data.profiles || [];
-      const males = profilesList.filter(p => p.gender === 'male');
-      const females = profilesList.filter(p => p.gender !== 'male');
-      const sorted = [];
-      const max = Math.max(males.length, females.length);
-      for (let i = 0; i < max; i++) {
-        if (i < males.length) sorted.push(males[i]);
-        if (i < females.length) sorted.push(females[i]);
-      }
-      setProfiles(sorted);
+      setProfiles(response.data.profiles || []);
     } catch (error) {
       console.error('Error fetching profiles:', error);
       if (profiles.length === 0) setProfiles([]);
