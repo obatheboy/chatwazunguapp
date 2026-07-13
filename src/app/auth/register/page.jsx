@@ -8,7 +8,8 @@ import axios from 'axios';
 import Link from 'next/link';
 
 export default function Register() {
-  const { register, isAuthenticated, isActivated } = useAuth();
+  const { register, isAuthenticated, user } = useAuth();
+  const isActivated = user?.isActivated || false;
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({

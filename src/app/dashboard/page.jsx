@@ -12,6 +12,7 @@ import ImageWithLoader from '@/components/ImageWithLoader';
 
 export default function Dashboard() {
   const { user, isAuthenticated, logout, refreshUser } = useAuth();
+  const isActivated = user?.isActivated || false;
   const router = useRouter();
   const [profiles, setProfiles] = useState([]);
   const [loading, setLoading] = useState(false);

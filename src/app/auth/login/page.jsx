@@ -7,7 +7,8 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 
 export default function Login() {
-  const { login, isAuthenticated, isActivated } = useAuth();
+  const { login, isAuthenticated, user } = useAuth();
+  const isActivated = user?.isActivated || false;
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({

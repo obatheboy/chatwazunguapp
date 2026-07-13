@@ -7,7 +7,8 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 
 export default function Home() {
-  const { isAuthenticated } = useAuth()
+  const { isAuthenticated, user } = useAuth()
+  const isActivated = user?.isActivated || false;
   const router = useRouter()
 
   useEffect(() => {
