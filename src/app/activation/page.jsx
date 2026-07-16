@@ -13,7 +13,7 @@ export default function ActivationPage() {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [loading, setLoading] = useState(false);
   const [paymentStatus, setPaymentStatus] = useState('idle');
-  const [checkoutRequestId, setCheckoutRequestId] = useState(null);
+  const [transactionRequestId, setTransactionRequestId] = useState(null);
 
   useEffect(() => {
     if (!user) {
@@ -43,7 +43,7 @@ export default function ActivationPage() {
       );
 
       if (response.data.success) {
-        setCheckoutRequestId(response.data.checkoutRequestId);
+        setTransactionRequestId(response.data.transactionRequestId);
         setPaymentStatus('pending');
         toast.success('STK Push sent! Check your phone and enter PIN.');
       }
@@ -57,18 +57,17 @@ export default function ActivationPage() {
 
   useEffect(() => {
     let interval;
-    if (checkoutRequestId && paymentStatus === 'pending') {
+    if (transactionRequestId && paymentStatus === 'pending') {
       interval = setInterval(async () => {
         try {
           const response = await axios.post(
             `${process.env.NEXT_PUBLIC_API_URL}/payments/activation/status`,
-            { checkoutRequestId }
+            { transactionRequestId }
           );
 
           const status = (response.data.status || '').toString().toLowerCase();
-          const resultCode = response.data.resultCode;
 
-          if (status === 'completed' || status === 'Completed' || resultCode == 0 || response.data.isActivated) {
+          if (status === 'completed' || response.data.isActivated) {
             clearInterval(interval);
             setPaymentStatus('completed');
             setLoading(false);
@@ -77,7 +76,7 @@ export default function ActivationPage() {
             setTimeout(() => {
               router.push('/dashboard');
             }, 1500);
-          } else if (status === 'failed' || resultCode == 400 || resultCode == '400') {
+          } else if (status === 'failed') {
             clearInterval(interval);
             setPaymentStatus('failed');
             setLoading(false);
@@ -89,7 +88,7 @@ export default function ActivationPage() {
       }, 3000);
     }
     return () => clearInterval(interval);
-  }, [checkoutRequestId, paymentStatus, refreshUser, router]);
+  }, [transactionRequestId, paymentStatus, refreshUser, router]);
 
   if (!user) {
     return null;
@@ -186,7 +185,7 @@ export default function ActivationPage() {
                 onClick={() => {
                   setPaymentStatus('idle');
                   setLoading(false);
-                  setCheckoutRequestId(null);
+                  setTransactionRequestId(null);
                 }}
                 className="text-[#C9A84C] text-sm hover:text-white transition-colors mt-2"
               >
@@ -217,7 +216,7 @@ export default function ActivationPage() {
         </form>
 
         <p className="text-center text-[#E8D5A3]/60 text-xs mt-4">
-          Secure M-Pesa payment powered by SmartPay
+          Secure M-Pesa payment powered by MegaPay
         </p>
       </motion.div>
     </div>
