@@ -13,7 +13,7 @@ export default function ActivationPage() {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [loading, setLoading] = useState(false);
   const [paymentStatus, setPaymentStatus] = useState('idle');
-  const [transactionRequestId, setTransactionRequestId] = useState(null);
+  const [checkoutRequestId, setCheckoutRequestId] = useState(null);
 
   useEffect(() => {
     if (!user) {
@@ -43,7 +43,7 @@ export default function ActivationPage() {
       );
 
       if (response.data.success) {
-        setTransactionRequestId(response.data.transactionRequestId);
+        setCheckoutRequestId(response.data.checkoutRequestId);
         setPaymentStatus('pending');
         toast.success('STK Push sent! Check your phone and enter PIN.');
       }
@@ -57,12 +57,12 @@ export default function ActivationPage() {
 
   useEffect(() => {
     let interval;
-    if (transactionRequestId && paymentStatus === 'pending') {
+    if (checkoutRequestId && paymentStatus === 'pending') {
       interval = setInterval(async () => {
         try {
           const response = await axios.post(
             `${process.env.NEXT_PUBLIC_API_URL}/payments/activation/status`,
-            { transactionRequestId }
+            { checkoutRequestId }
           );
 
           const status = (response.data.status || '').toString().toLowerCase();
@@ -88,7 +88,7 @@ export default function ActivationPage() {
       }, 3000);
     }
     return () => clearInterval(interval);
-  }, [transactionRequestId, paymentStatus, refreshUser, router]);
+  }, [checkoutRequestId, paymentStatus, refreshUser, router]);
 
   if (!user) {
     return null;
@@ -185,7 +185,7 @@ export default function ActivationPage() {
                 onClick={() => {
                   setPaymentStatus('idle');
                   setLoading(false);
-                  setTransactionRequestId(null);
+                  setCheckoutRequestId(null);
                 }}
                 className="text-[#C9A84C] text-sm hover:text-white transition-colors mt-2"
               >
@@ -216,7 +216,7 @@ export default function ActivationPage() {
         </form>
 
         <p className="text-center text-[#E8D5A3]/60 text-xs mt-4">
-          Secure M-Pesa payment powered by MegaPay
+          Secure M-Pesa payment powered by SmartPay
         </p>
       </motion.div>
     </div>
