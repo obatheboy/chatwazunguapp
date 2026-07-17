@@ -11,7 +11,7 @@ export default function PaymentModal({ isOpen, onClose, profile, onSuccess }) {
   const [confirmationCode, setConfirmationCode] = useState('');
   const [loading, setLoading] = useState(false);
   const [paymentStatus, setPaymentStatus] = useState('idle');
-  const [checkoutRequestId, setCheckoutRequestId] = useState(null);
+  const [transactionRequestId, setTransactionRequestId] = useState(null);
 
   const reset = () => {
     setStep('options');
@@ -19,7 +19,7 @@ export default function PaymentModal({ isOpen, onClose, profile, onSuccess }) {
     setConfirmationCode('');
     setLoading(false);
     setPaymentStatus('idle');
-    setCheckoutRequestId(null);
+    setTransactionRequestId(null);
   };
 
   const handleClose = () => {
@@ -36,11 +36,11 @@ export default function PaymentModal({ isOpen, onClose, profile, onSuccess }) {
     setPaymentStatus('initiating');
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/payments/smartpay/initiate`,
+        `${process.env.NEXT_PUBLIC_API_URL}/payments/megapay/initiate`,
         { profileId: profile._id, phoneNumber, amount: 99 }
       );
       if (response.data.success) {
-        setCheckoutRequestId(response.data.checkoutRequestId);
+        setTransactionRequestId(response.data.transactionRequestId);
         setPaymentStatus('pending');
         setLoading(false);
         toast.success('STK Push sent! Check your phone and enter PIN.');
@@ -78,18 +78,17 @@ export default function PaymentModal({ isOpen, onClose, profile, onSuccess }) {
 
   useEffect(() => {
     let interval;
-    if (checkoutRequestId && paymentStatus === 'pending') {
+    if (transactionRequestId && paymentStatus === 'pending') {
       interval = setInterval(async () => {
         try {
           const response = await axios.post(
-            `${process.env.NEXT_PUBLIC_API_URL}/payments/smartpay/status`,
-            { checkoutRequestId }
+            `${process.env.NEXT_PUBLIC_API_URL}/payments/megapay/status`,
+            { transactionRequestId }
           );
 
           const status = (response.data.status || '').toString().toLowerCase();
-          const resultCode = response.data.resultCode;
 
-          if (status === 'completed' || resultCode == 0) {
+          if (status === 'completed') {
             clearInterval(interval);
             setPaymentStatus('completed');
             setLoading(false);
@@ -99,7 +98,7 @@ export default function PaymentModal({ isOpen, onClose, profile, onSuccess }) {
               handleClose();
               window.location.href = `/chats?profileId=${profile._id}`;
             }, 1500);
-          } else if (status === 'failed' || resultCode == 400 || resultCode == '400') {
+          } else if (status === 'failed') {
             clearInterval(interval);
             setPaymentStatus('failed');
             setLoading(false);
@@ -111,7 +110,7 @@ export default function PaymentModal({ isOpen, onClose, profile, onSuccess }) {
       }, 3000);
     }
     return () => clearInterval(interval);
-  }, [checkoutRequestId, paymentStatus, onSuccess, profile]);
+  }, [transactionRequestId, paymentStatus, onSuccess, profile]);
 
   return (
     <Modal isOpen={isOpen} onClose={handleClose}>
@@ -167,7 +166,7 @@ export default function PaymentModal({ isOpen, onClose, profile, onSuccess }) {
       {step === 'pay' && (
         <div className="p-6 sm:p-8">
           <button
-            onClick={() => { setStep('options'); setPaymentStatus('idle'); setCheckoutRequestId(null); }}
+            onClick={() => { setStep('options'); setPaymentStatus('idle'); setTransactionRequestId(null); }}
             className="text-[#E8D5A3] hover:text-white text-sm mb-4 transition-colors"
           >
             ← Back
@@ -210,8 +209,8 @@ export default function PaymentModal({ isOpen, onClose, profile, onSuccess }) {
                 onClick={async () => {
                   try {
                     const response = await axios.post(
-                      `${process.env.NEXT_PUBLIC_API_URL}/payments/smartpay/status`,
-                      { checkoutRequestId }
+                      `${process.env.NEXT_PUBLIC_API_URL}/payments/megapay/status`,
+                      { transactionRequestId }
                     );
                     const status = (response.data.status || '').toString().toLowerCase();
                     if (status === 'completed') {
