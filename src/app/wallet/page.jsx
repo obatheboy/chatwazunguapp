@@ -10,21 +10,17 @@ import { toast } from 'react-hot-toast';
 import ImageWithLoader from '@/components/ImageWithLoader';
 
 export default function WalletPage() {
-  const { user, isAuthenticated, logout } = useAuth();
+  const { user, isAuthenticated, logout, refreshUser } = useAuth();
   const router = useRouter();
   const [wallet, setWallet] = useState(null);
   const [loading, setLoading] = useState(true);
   const [withdrawAmount, setWithdrawAmount] = useState('');
   const [mpesaNumber, setMpesaNumber] = useState('');
   const [withdrawing, setWithdrawing] = useState(false);
+  const [withdrawalSuccess, setWithdrawalSuccess] = useState(false);
 
-  useEffect(() => {
-    if (!isAuthenticated) {
-      router.push('/auth/login');
-      return;
-    }
-    fetchWallet();
-  }, [isAuthenticated, router]);
+  const totalUnlocks = user?.totalUnlocks || 0;
+  const canWithdraw = totalUnlocks >= 6;
 
   const fetchWallet = async () => {
     try {
@@ -37,6 +33,16 @@ export default function WalletPage() {
     }
   };
 
+  useEffect(() => {
+    if (!isAuthenticated) {
+      router.push('/auth/login');
+      return;
+    }
+    (async () => {
+      await fetchWallet();
+    })();
+  }, [isAuthenticated, router]);
+
   const handleWithdraw = async (e) => {
     e.preventDefault();
     if (!withdrawAmount || parseFloat(withdrawAmount) <= 0) {
@@ -44,7 +50,13 @@ export default function WalletPage() {
       return;
     }
 
+    if (!canWithdraw) {
+      toast.error(`Unlock ${6 - totalUnlocks} more profiles to withdraw`);
+      return;
+    }
+
     setWithdrawing(true);
+    setWithdrawalSuccess(false);
     try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/payments/withdraw`,
@@ -52,6 +64,9 @@ export default function WalletPage() {
       );
       toast.success(response.data.message);
       setWithdrawAmount('');
+      setMpesaNumber('');
+      setWithdrawalSuccess(true);
+      if (refreshUser) refreshUser();
       fetchWallet();
     } catch (error) {
       toast.error(error.response?.data?.message || 'Withdrawal failed');
@@ -116,7 +131,7 @@ export default function WalletPage() {
           {[
             { label: 'Total Earnings', value: `KES ${user?.totalEarnings || 0}`, sub: 'KES 500 per unlock', icon: '💰' },
             { label: 'Wallet Balance', value: `KES ${user?.walletBalance || 0}`, sub: 'Available to withdraw', icon: '💵' },
-            { label: 'Unlocked Profiles', value: user?.totalUnlocks || 0, sub: '✅ Withdraw anytime', icon: '🔓' },
+            { label: 'Unlocked Profiles', value: totalUnlocks, sub: canWithdraw ? '✅ Withdraw enabled' : `🔒 ${6 - totalUnlocks} more to withdraw`, icon: '🔓' },
           ].map((stat, index) => (
             <motion.div
               key={index}
@@ -134,6 +149,43 @@ export default function WalletPage() {
             </motion.div>
           ))}
         </div>
+
+        {!canWithdraw && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="glass-card rounded-2xl overflow-hidden mb-8 border-yellow-500/30"
+          >
+            <div className="p-6 flex items-start gap-4">
+              <div className="text-3xl">🔒</div>
+              <div>
+                <h3 className="text-white font-semibold text-lg mb-1">Withdrawal Locked</h3>
+                <p className="text-[#E8D5A3]">
+                  Unlock <span className="text-[#C9A84C] font-bold">{6 - totalUnlocks}</span> more profiles to enable withdrawals.
+                  You have unlocked <span className="text-white font-bold">{totalUnlocks}</span> of 6 required.
+                </p>
+              </div>
+            </div>
+          </motion.div>
+        )}
+
+        {withdrawalSuccess && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="glass-card rounded-2xl overflow-hidden mb-8 border-green-500/30"
+          >
+            <div className="p-6 flex items-start gap-4">
+              <div className="text-3xl">⏳</div>
+              <div>
+                <h3 className="text-white font-semibold text-lg mb-1">Withdrawal Processing</h3>
+                <p className="text-[#E8D5A3]">
+                  Your withdrawal request has been received. Please allow <span className="text-[#C9A84C] font-bold">48 to 72 hours</span> for the payment to be processed to your M-Pesa account.
+                </p>
+              </div>
+            </div>
+          </motion.div>
+        )}
 
         {/* Withdrawal Section */}
         <motion.div
@@ -158,7 +210,11 @@ export default function WalletPage() {
                   className="input-field"
                   placeholder="Enter amount"
                   max={user?.walletBalance || 0}
+                  disabled={!canWithdraw || withdrawing}
                 />
+                <p className="text-xs text-[#E8D5A3]/60 mt-1">
+                  Available: KES {user?.walletBalance || 0}
+                </p>
               </div>
               <div>
                 <label className="block text-[#E8D5A3] text-sm font-medium mb-2">
@@ -170,24 +226,62 @@ export default function WalletPage() {
                   onChange={(e) => setMpesaNumber(e.target.value)}
                   className="input-field"
                   placeholder="0712345678"
+                  disabled={!canWithdraw || withdrawing}
                 />
               </div>
               <button
                 type="submit"
-                disabled={withdrawing}
-                className="w-full btn-primary py-3.5 rounded-xl"
+                disabled={withdrawing || !canWithdraw}
+                className="w-full btn-primary py-3.5 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {withdrawing ? 'Processing...' : 'Withdraw to M-Pesa'}
+                {withdrawing ? 'Processing...' : canWithdraw ? 'Withdraw to M-Pesa' : `Unlock ${6 - totalUnlocks} more profiles to withdraw`}
               </button>
             </form>
           </div>
         </motion.div>
 
+        {/* Pending Withdrawals */}
+        {wallet?.pendingWithdrawals?.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="glass-card rounded-2xl overflow-hidden mb-8"
+          >
+            <div className="p-6 border-b border-[#C9A84C]/20">
+              <h3 className="text-white font-semibold text-xl">Pending Withdrawals</h3>
+            </div>
+            <div className="p-6">
+              <div className="space-y-4">
+                {wallet.pendingWithdrawals.map((w) => (
+                  <div key={w._id} className="bg-[#2A2522] rounded-xl p-4 border border-[#C9A84C]/10">
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center gap-2">
+                        <span className="text-2xl">⏳</span>
+                        <span className="text-white font-bold">KES {w.amount}</span>
+                      </div>
+                      <span className="text-xs px-3 py-1 rounded-full bg-yellow-500/20 text-yellow-400 border border-yellow-500/30">
+                        Processing
+                      </span>
+                    </div>
+                    <p className="text-[#E8D5A3] text-sm">
+                      To: {w.metadata?.mpesaNumber || 'N/A'}
+                    </p>
+                    <p className="text-[#E8D5A3]/60 text-xs mt-1">
+                      {new Date(w.createdAt).toLocaleDateString()} — Please allow 48-72 hours for processing
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        )}
+
         {/* Unlocked Profiles */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
+          transition={{ duration: 0.5, delay: 0.5 }}
           className="glass-card rounded-2xl overflow-hidden"
         >
           <div className="p-6 border-b border-[#C9A84C]/20">
