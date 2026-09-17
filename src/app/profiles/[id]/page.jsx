@@ -80,7 +80,7 @@ export default function ProfileDetail() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#080508] flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-[#1A0F0A] to-[#2D1B1B] flex items-center justify-center">
         <div className="text-center">
           <div className="w-12 h-12 border-2 border-[#C9A84C] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
           <div className="text-[#C9A84C] text-xl">Loading profile...</div>
@@ -91,7 +91,7 @@ export default function ProfileDetail() {
 
   if (!profile) {
     return (
-      <div className="min-h-screen bg-[#080508] flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-[#1A0F0A] to-[#2D1B1B] flex items-center justify-center">
         <div className="text-center">
           <div className="text-5xl mb-4">😕</div>
           <div className="text-white text-xl mb-4">Profile not found</div>
@@ -107,7 +107,7 @@ export default function ProfileDetail() {
   const firstName = profile.fullName?.split(' ')[0] || profile.fullName || 'Profile';
 
   return (
-    <div className="min-h-screen bg-[#080508]">
+    <div className="min-h-screen bg-gradient-to-br from-[#1A0F0A] to-[#2D1B1B]">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -133,7 +133,7 @@ export default function ProfileDetail() {
                   onError={(e) => { e.target.src = '/default-avatar.svg'; }}
                 />
 
-                <div className="absolute inset-0 bg-gradient-to-t from-[#080508]/80 via-transparent to-transparent md:bg-gradient-to-r" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#1A1715]/80 via-transparent to-transparent md:bg-gradient-to-r" />
 
                 {profile.onlineStatus === 'online' && (
                   <div className="absolute top-4 right-4 flex items-center gap-1.5 badge badge-online">
@@ -155,7 +155,7 @@ export default function ProfileDetail() {
                     {profile.fullName}
                   </h1>
                   <div className="flex flex-wrap items-center gap-2 text-[#E8D5A3] text-sm">
-                    <span>{profile.category === 'Sugar Mommy' ? '👩🏾' : '👨🏾'} {profile.category}</span>
+                    <span>{profile.category === 'white-female' ? '👩' : profile.category === 'white-male' ? '👨' : '👤'} {profile.category === 'white-female' ? 'Wazungu Woman' : profile.category === 'white-male' ? 'Wazungu Man' : profile.category}</span>
                     <span className="w-1 h-1 bg-[#C9A84C] rounded-full" />
                     <span>{age !== 'N/A' ? `${age} years old` : 'Age'}</span>
                     <span className="w-1 h-1 bg-[#C9A84C] rounded-full" />
@@ -204,7 +204,7 @@ export default function ProfileDetail() {
                       <div className="text-4xl mb-3">🔒</div>
                       <p className="text-white font-medium mb-1">This profile is locked</p>
                       <p className="text-[#E8D5A3]/70 text-sm">
-                        Unlock for KES 99 to chat and earn KES 500
+                        Unlock for KES 98 to chat and earn KES 500
                       </p>
                     </div>
 
@@ -212,7 +212,7 @@ export default function ProfileDetail() {
                       onClick={handleUnlock}
                       className="w-full btn-primary py-3.5 rounded-xl text-base"
                     >
-                      🔓 Unlock {firstName} - KES 99
+                      🔓 Unlock {firstName} - KES 98
                     </button>
 
                     <div className="flex items-center justify-center gap-4 text-xs text-[#E8D5A3]/50">

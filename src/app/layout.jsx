@@ -17,8 +17,8 @@ const dmSans = DM_Sans({
 })
 
 export const metadata = {
-  title: 'The Sugar Life - Premium Adult Chat',
-  description: 'Connect with verified, generous, and attractive people near you. Sugar Mummy and Sugar Daddy chat platform.',
+  title: 'ChatWazungu - Premium Chat Platform',
+  description: 'Connect with verified, generous, and attractive people near you. ChatWazungu premium chat platform.',
 }
 
 export default function RootLayout({ children }) {

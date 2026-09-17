@@ -70,7 +70,7 @@ export const AuthProvider = ({ children }) => {
         setToken(token);
         setUser(user);
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-        toast.success('Welcome to The Sugar Life!');
+        toast.success('Welcome to ChatWazungu!');
         return { success: true };
       }
     } catch (error) {

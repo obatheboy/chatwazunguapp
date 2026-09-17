@@ -137,8 +137,8 @@ export default function EditProfile() {
                 className="input-field cursor-pointer"
               >
                 <option value="">Select category</option>
-                {['Sugar Daddy', 'Sugar Mommy', 'Young Man', 'Young Woman'].map((cat) => (
-                  <option key={cat} value={cat}>{cat}</option>
+                {[{value: 'white-male', label: 'Wazungu Man'}, {value: 'white-female', label: 'Wazungu Woman'}, {value: 'Young Man', label: 'Young Man'}, {value: 'Young Woman', label: 'Young Woman'}].map((cat) => (
+                  <option key={cat.value} value={cat.value}>{cat.label}</option>
                 ))}
               </select>
             </div>
@@ -155,8 +155,8 @@ export default function EditProfile() {
                 className="input-field cursor-pointer"
               >
                 <option value="">Select who you're looking for</option>
-                {['Sugar Daddy', 'Sugar Mommy', 'Young Man', 'Young Woman'].map((cat) => (
-                  <option key={cat} value={cat}>{cat}</option>
+                {[{value: 'white-male', label: 'Wazungu Man'}, {value: 'white-female', label: 'Wazungu Woman'}, {value: 'Young Man', label: 'Young Man'}, {value: 'Young Woman', label: 'Young Woman'}].map((cat) => (
+                  <option key={cat.value} value={cat.value}>{cat.label}</option>
                 ))}
               </select>
             </div>

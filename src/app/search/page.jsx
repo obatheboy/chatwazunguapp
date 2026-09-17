@@ -136,8 +136,8 @@ export default function SearchPage() {
                 className="input-field cursor-pointer"
               >
                 <option value="">All Categories</option>
-                <option value="Sugar Mommy">Sugar Mommy</option>
-                <option value="Sugar Daddy">Sugar Daddy</option>
+                <option value="white-female">Wazungu Woman</option>
+                <option value="white-male">Wazungu Man</option>
                 <option value="Young Boy">Young Boy</option>
                 <option value="Young Man">Young Man</option>
               </select>
@@ -231,7 +231,7 @@ export default function SearchPage() {
                           </button>
                         ) : (
                           <button onClick={(e) => { e.stopPropagation(); setActiveProfile(profile); }} className="w-full bg-gradient-to-r from-[#BB0000] to-[#8B0000] text-white font-bold py-4 sm:py-5 rounded-xl text-base sm:text-lg hover:shadow-lg hover:shadow-red-500/30 transition-all duration-300 flex items-center justify-center gap-2">
-                            <span>🔒</span> Unlock - KSh 99
+                            <span>🔒</span> Unlock - KSh 98
                           </button>
                         )}
                       </div>

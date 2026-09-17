@@ -69,7 +69,7 @@ export default function Register() {
 
     setLoading(true);
     try {
-      const category = localStorage.getItem('regCategory') || 'Sugar Mommy';
+      const category = localStorage.getItem('regCategory') || 'white-female';
       const result = await register({ ...formData, category });
       if (result.success) {
         localStorage.removeItem('regCategory');
@@ -111,7 +111,7 @@ export default function Register() {
           >
             <span className="text-3xl">🔐</span>
           </motion.div>
-          <h1 className="text-2xl sm:text-3xl font-bold gold-text mb-1">Join The Sugar Life</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold gold-text mb-1">ChatWazungu</h1>
           <p className="text-[#E8D5A3] text-sm">Step {step} of 2</p>
         </div>
 
@@ -124,33 +124,33 @@ export default function Register() {
             <h2 className="text-xl sm:text-2xl font-bold text-white text-center mb-6">Who are you looking for?</h2>
             <div className="grid grid-cols-2 gap-3 sm:gap-4">
               <motion.button
-                onClick={() => handleCategorySelect('Sugar Mommy')}
+                onClick={() => handleCategorySelect('white-female')}
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
                 className={`p-4 sm:p-6 rounded-2xl border-2 text-center transition-all duration-300 ${
-                  selectedCategory === 'Sugar Mommy'
+                  selectedCategory === 'white-female'
                     ? 'border-[#FF2D95] bg-[#FF2D95]/10 shadow-[0_0_30px_rgba(255,45,149,0.2)]'
                     : 'border-[#C9A84C]/20 bg-[#1A1715] hover:border-[#C9A84C]/40'
                 }`}
               >
-                <div className="text-4xl sm:text-5xl mb-3">👩🏾</div>
-                <h3 className="text-white font-bold text-base sm:text-lg mb-1">Sugar Mummy</h3>
-                <p className="text-[#E8D5A3] text-xs sm:text-sm">Rich, generous, mature women</p>
+                <div className="text-4xl sm:text-5xl mb-3">👩</div>
+                <h3 className="text-white font-bold text-base sm:text-lg mb-1">Wazungu Woman</h3>
+                <p className="text-[#E8D5A3] text-xs sm:text-sm">White, generous, mature women</p>
               </motion.button>
 
               <motion.button
-                onClick={() => handleCategorySelect('Sugar Daddy')}
+                onClick={() => handleCategorySelect('white-male')}
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
                 className={`p-4 sm:p-6 rounded-2xl border-2 text-center transition-all duration-300 ${
-                  selectedCategory === 'Sugar Daddy'
+                  selectedCategory === 'white-male'
                     ? 'border-[#FF2D95] bg-[#FF2D95]/10 shadow-[0_0_30px_rgba(255,45,149,0.2)]'
                     : 'border-[#C9A84C]/20 bg-[#1A1715] hover:border-[#C9A84C]/40'
                 }`}
               >
-                <div className="text-4xl sm:text-5xl mb-3">👨🏾</div>
-                <h3 className="text-white font-bold text-base sm:text-lg mb-1">Sugar Daddy</h3>
-                <p className="text-[#E8D5A3] text-xs sm:text-sm">Wealthy, successful mature men</p>
+                <div className="text-4xl sm:text-5xl mb-3">👨</div>
+                <h3 className="text-white font-bold text-base sm:text-lg mb-1">Wazungu Man</h3>
+                <p className="text-[#E8D5A3] text-xs sm:text-sm">White, wealthy, successful men</p>
               </motion.button>
             </div>
 
@@ -241,7 +241,7 @@ export default function Register() {
                   </svg>
                   Joining...
                 </span>
-              ) : 'Enter The Sugar Life 🍯'}
+              ) : 'Enter ChatWazungu 🍯'}
             </button>
 
             <p className="text-center text-[#E8D5A3] text-xs mt-2">

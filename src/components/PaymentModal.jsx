@@ -37,7 +37,7 @@ export default function PaymentModal({ isOpen, onClose, profile, onSuccess }) {
     try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/payments/megapay/initiate`,
-        { profileId: profile._id, phoneNumber, amount: 99 }
+        { profileId: profile._id, phoneNumber, amount: 98 }
       );
       if (response.data.success) {
         setTransactionRequestId(response.data.transactionRequestId);
@@ -132,7 +132,7 @@ export default function PaymentModal({ isOpen, onClose, profile, onSuccess }) {
               Unlock {firstName}
             </h3>
             <p className="text-[#E8D5A3] text-base sm:text-lg">
-              Pay KES 99 to start chatting instantly
+              Pay KES 98 to start chatting instantly
             </p>
           </div>
 
@@ -183,7 +183,7 @@ export default function PaymentModal({ isOpen, onClose, profile, onSuccess }) {
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-[#22C55E]/15 text-3xl mb-3">
               💳
             </div>
-            <h3 className="text-white font-bold text-xl sm:text-2xl mb-2">Pay KES 99 via M-Pesa</h3>
+            <h3 className="text-white font-bold text-xl sm:text-2xl mb-2">Pay KES 98 via M-Pesa</h3>
             <p className="text-[#E8D5A3] text-sm">Complete payment to unlock {firstName}</p>
           </div>
           <label className="block text-[#E8D5A3] text-sm font-medium mb-2">
@@ -202,7 +202,7 @@ export default function PaymentModal({ isOpen, onClose, profile, onSuccess }) {
             disabled={loading || paymentStatus === 'pending'}
             className="w-full bg-gradient-to-r from-[#22C55E] to-[#16A34A] hover:from-[#16A34A] hover:to-[#22C55E] text-white font-bold py-5 rounded-xl transition-all duration-300 text-xl shadow-lg shadow-green-500/30 disabled:opacity-50"
           >
-            {loading ? '⏳ Processing...' : paymentStatus === 'pending' ? '⏳ Waiting for payment...' : 'Pay KES 99 - M-Pesa'}
+            {loading ? '⏳ Processing...' : paymentStatus === 'pending' ? '⏳ Waiting for payment...' : 'Pay KES 98 - M-Pesa'}
           </button>
 
           {paymentStatus === 'pending' && (
@@ -272,11 +272,11 @@ export default function PaymentModal({ isOpen, onClose, profile, onSuccess }) {
               📱
             </div>
             <h3 className="text-white font-bold text-xl sm:text-2xl mb-2">Manual Payment</h3>
-            <p className="text-[#E8D5A3] text-sm">Send KES 99 via M-Pesa</p>
+            <p className="text-[#E8D5A3] text-sm">Send KES 98 via M-Pesa</p>
           </div>
 
           <div className="bg-[#2A2522] rounded-2xl p-5 sm:p-6 border border-[#C9A84C]/20 mb-6">
-            <p className="text-[#E8D5A3] mb-3 text-center">📱 Send KES 99 to:</p>
+            <p className="text-[#E8D5A3] mb-3 text-center">📱 Send KES 98 to:</p>
             <div className="space-y-2 text-center">
               <p className="text-white text-base sm:text-lg">
                 Paybill: <span className="font-bold text-[#C9A84C]">0140834185</span>

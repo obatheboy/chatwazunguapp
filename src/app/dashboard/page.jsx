@@ -76,23 +76,23 @@ export default function Dashboard() {
 
   if (!user) return null;
 
-  const categoryLabel = user?.category === 'Sugar Mommy' ? 'Sugar Mummy' : user?.category === 'Sugar Daddy' ? 'Sugar Daddy' : user?.category || 'Sugar Daddy';
+   const categoryLabel = user?.category === 'white-female' ? 'Wazungu Woman' : user?.category === 'white-male' ? 'Wazungu Man' : user?.category || 'Wazungu';
 
   return (
-    <div className="min-h-screen bg-[#080508]">
-      <header className="fixed top-0 left-0 right-0 z-50 bg-[#080508]/98 backdrop-blur-xl border-b border-[#C9A84C]/10">
+    <div className="min-h-screen bg-gradient-to-br from-[#1A0F0A] to-[#2D1B1B]">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-[#1A0F0A]/98 backdrop-blur-xl border-b-2 border-[#C9A84C] shadow-2xl">
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between py-3">
             <Link href="/dashboard" className="flex items-center gap-2 flex-shrink-0">
               <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#C9A84C] to-[#A8893A] flex items-center justify-center shadow-lg shadow-[#C9A84C]/30">
-                <span className="text-xs font-bold text-[#1A0F0A]" style={{ fontFamily: "'Playfair Display', serif" }}>SL</span>
+                <span className="text-xs font-bold text-[#1A0F0A]" style={{ fontFamily: "'Playfair Display', serif" }}>CW</span>
               </div>
-              <span className="text-lg font-bold gold-text hidden sm:inline" style={{ fontFamily: "'Playfair Display', serif" }}>The Sugar Life</span>
+              <span className="text-lg font-bold gold-text hidden sm:inline" style={{ fontFamily: "'Playfair Display', serif" }}>ChatWazungu</span>
             </Link>
 
             <div className="flex items-center gap-2 text-xs sm:text-sm">
               <span className="text-[#E8D5A3]/60">Looking for:</span>
-              <span className="px-2.5 py-1 rounded-full bg-[#FF2D95]/15 text-[#FF2D95] font-semibold text-xs border border-[#FF2D95]/20">
+              <span className="px-2.5 py-1 rounded-full bg-[#C9A84C]/15 text-[#C9A84C] font-semibold text-xs border border-[#C9A84C]/20">
                 {categoryLabel}
               </span>
             </div>
