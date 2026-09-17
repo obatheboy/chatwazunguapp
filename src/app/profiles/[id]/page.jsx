@@ -10,6 +10,16 @@ import { toast } from 'react-hot-toast';
 import ImageWithLoader from '@/components/ImageWithLoader';
 import PaymentModal from '@/components/PaymentModal';
 
+function computeAge(dateOfBirth) {
+  if (!dateOfBirth) return 'N/A';
+  const dob = new Date(dateOfBirth);
+  const now = new Date();
+  let age = now.getFullYear() - dob.getFullYear();
+  const m = now.getMonth() - dob.getMonth();
+  if (m < 0 || (m === 0 && now.getDate() < dob.getDate())) age--;
+  return age > 0 ? age : 'N/A';
+}
+
 export default function ProfileDetail() {
   const { isAuthenticated, user, refreshUser } = useAuth();
   const router = useRouter();
@@ -20,16 +30,6 @@ export default function ProfileDetail() {
   const [loading, setLoading] = useState(true);
   const [isUnlocked, setIsUnlocked] = useState(false);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
-
-  useEffect(() => {
-    if (loading) return;
-    if (!isAuthenticated) {
-      router.push('/auth/login');
-      return;
-    }
-
-    fetchProfile();
-  }, [isAuthenticated, loading, router, profileId]);
 
   const fetchProfile = async () => {
     try {
@@ -52,6 +52,15 @@ export default function ProfileDetail() {
     }
   };
 
+  useEffect(() => {
+    if (loading) return;
+    if (!isAuthenticated) {
+      router.push('/auth/login');
+      return;
+    }
+    fetchProfile();
+  }, [isAuthenticated, loading, router, profileId]);
+
   const handleUnlock = () => {
     setShowPaymentModal(true);
   };
@@ -62,7 +71,7 @@ export default function ProfileDetail() {
         `${process.env.NEXT_PUBLIC_API_URL}/chats/${profileId}`
       );
       if (response.data.success) {
-        router.push('/chats');
+        router.push('/chats?profileId=' + profileId);
       }
     } catch (error) {
       toast.error(error.response?.data?.message || 'Failed to start chat');
@@ -71,7 +80,7 @@ export default function ProfileDetail() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#1A0F0A] to-[#2D1B1B] flex items-center justify-center">
+      <div className="min-h-screen bg-[#080508] flex items-center justify-center">
         <div className="text-center">
           <div className="w-12 h-12 border-2 border-[#C9A84C] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
           <div className="text-[#C9A84C] text-xl">Loading profile...</div>
@@ -82,11 +91,11 @@ export default function ProfileDetail() {
 
   if (!profile) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#1A0F0A] to-[#2D1B1B] flex items-center justify-center">
+      <div className="min-h-screen bg-[#080508] flex items-center justify-center">
         <div className="text-center">
-          <div className="text-6xl mb-4">😕</div>
-          <div className="text-white text-xl">Profile not found</div>
-          <Link href="/dashboard" className="text-[#C9A84C] hover:underline mt-4 inline-block">
+          <div className="text-5xl mb-4">😕</div>
+          <div className="text-white text-xl mb-4">Profile not found</div>
+          <Link href="/dashboard" className="text-[#C9A84C] hover:underline transition-colors">
             Back to Dashboard
           </Link>
         </div>
@@ -94,9 +103,12 @@ export default function ProfileDetail() {
     );
   }
 
+  const age = computeAge(profile.dateOfBirth);
+  const firstName = profile.fullName?.split(' ')[0] || profile.fullName || 'Profile';
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#1A0F0A] to-[#2D1B1B]">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="min-h-screen bg-[#080508]">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -114,16 +126,14 @@ export default function ProfileDetail() {
 
           <div className="glass-card rounded-3xl overflow-hidden">
             <div className="md:flex">
-              {/* Image Section */}
               <div className="md:w-1/2 relative aspect-square md:aspect-auto md:h-[600px] overflow-hidden">
                 <ImageWithLoader
                   src={profile.profilePhoto}
                   alt={profile.fullName}
                   onError={(e) => { e.target.src = '/default-avatar.svg'; }}
                 />
-                
-                {/* Gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#1A1715]/80 via-transparent to-transparent md:bg-gradient-to-r" />
+
+                <div className="absolute inset-0 bg-gradient-to-t from-[#080508]/80 via-transparent to-transparent md:bg-gradient-to-r" />
 
                 {profile.onlineStatus === 'online' && (
                   <div className="absolute top-4 right-4 flex items-center gap-1.5 badge badge-online">
@@ -139,21 +149,19 @@ export default function ProfileDetail() {
                 )}
               </div>
 
-              {/* Details Section */}
               <div className="md:w-1/2 p-6 sm:p-8 flex flex-col">
                 <div className="mb-6">
-                  <h1 className="text-3xl sm:text-4xl font-bold text-white mb-3">
+                  <h1 className="text-3xl sm:text-4xl font-bold text-white mb-2" style={{ fontFamily: "'Playfair Display', serif" }}>
                     {profile.fullName}
                   </h1>
-                  <div className="flex flex-wrap items-center gap-3 text-[#E8D5A3]">
-                    <span className="flex items-center gap-1.5">
-                      {profile.category === 'white-female' ? '👩' : '👨'} 
-                      {profile.category === 'white-female' ? 'Woman' : 'Man'}
-                    </span>
+                  <div className="flex flex-wrap items-center gap-2 text-[#E8D5A3] text-sm">
+                    <span>{profile.category === 'Sugar Mommy' ? '👩🏾' : '👨🏾'} {profile.category}</span>
                     <span className="w-1 h-1 bg-[#C9A84C] rounded-full" />
-                    <span>{profile.county}</span>
+                    <span>{age !== 'N/A' ? `${age} years old` : 'Age'}</span>
                     <span className="w-1 h-1 bg-[#C9A84C] rounded-full" />
-                    <span>{profile.onlineStatus === 'online' ? 'Online' : 'Offline'}</span>
+                    <span>{profile.county || 'Nairobi'}</span>
+                    <span className="w-1 h-1 bg-[#C9A84C] rounded-full" />
+                    <span>{profile.onlineStatus === 'online' ? '🟢 Online' : 'Offline'}</span>
                   </div>
                 </div>
 
@@ -163,7 +171,7 @@ export default function ProfileDetail() {
                   <h3 className="text-[#C9A84C] font-semibold text-lg mb-3">About</h3>
                   <div className="bg-[#2A2522] rounded-xl p-4 border border-[#C9A84C]/10">
                     <p className="text-[#E8D5A3] leading-relaxed">
-                      {isUnlocked ? profile.bio || 'No bio provided' : 'This profile is locked. Unlock to view full details and start chatting.'}
+                      {isUnlocked ? (profile.bio || 'No bio provided') : 'This profile is locked. Unlock to view full details and start chatting.'}
                     </p>
                   </div>
                 </div>
@@ -175,15 +183,15 @@ export default function ProfileDetail() {
                     className="space-y-4"
                   >
                     <div className="stat-card">
-                      <h4 className="text-[#C9A84C] font-semibold mb-2">Chat</h4>
-                      <p className="text-[#E8D5A3]">Profile unlocked! Start chatting now.</p>
+                      <p className="text-[#C9A84C] font-semibold mb-1">Profile Unlocked 🎉</p>
+                      <p className="text-[#E8D5A3]">Start chatting with {firstName} right away!</p>
                     </div>
 
                     <button
                       onClick={handleSendMessage}
                       className="w-full btn-primary py-3.5 rounded-xl text-base"
                     >
-                      💬 Send Message
+                      💬 Start Chatting
                     </button>
                   </motion.div>
                 ) : (
@@ -204,7 +212,7 @@ export default function ProfileDetail() {
                       onClick={handleUnlock}
                       className="w-full btn-primary py-3.5 rounded-xl text-base"
                     >
-                      🔓 Unlock Profile - KES 99
+                      🔓 Unlock {firstName} - KES 99
                     </button>
 
                     <div className="flex items-center justify-center gap-4 text-xs text-[#E8D5A3]/50">
@@ -235,6 +243,16 @@ export default function ProfileDetail() {
           </div>
         </motion.div>
       </div>
+
+      <PaymentModal
+        isOpen={showPaymentModal}
+        onClose={() => setShowPaymentModal(false)}
+        profile={profile}
+        onSuccess={() => {
+          setIsUnlocked(true);
+          if (refreshUser) refreshUser();
+        }}
+      />
     </div>
   );
 }

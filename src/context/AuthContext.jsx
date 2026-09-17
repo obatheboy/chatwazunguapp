@@ -30,12 +30,23 @@ const getStoredAuth = () => {
 };
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [token, setToken] = useState(null);
+  const [user, setUser] = useState(() => {
+    const stored = getStoredAuth();
+    if (stored.token && stored.user) {
+      axios.defaults.headers.common['Authorization'] = `Bearer ${stored.token}`;
+      return stored.user;
+    }
+    return null;
+  });
+  const [loading, setLoading] = useState(false);
+  const [token, setToken] = useState(() => {
+    const stored = getStoredAuth();
+    return stored.token || null;
+  });
   const router = useRouter();
 
   useEffect(() => {
+    setLoading(true);
     const stored = getStoredAuth();
     if (stored.token && stored.user) {
       setToken(stored.token);
@@ -51,7 +62,7 @@ export const AuthProvider = ({ children }) => {
         `${process.env.NEXT_PUBLIC_API_URL}/auth/register`,
         userData
       );
-      
+
       if (response.data.success) {
         const { token, user } = response.data;
         localStorage.setItem('token', token);
@@ -59,7 +70,7 @@ export const AuthProvider = ({ children }) => {
         setToken(token);
         setUser(user);
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-        toast.success('Welcome to ChatWazungu!');
+        toast.success('Welcome to The Sugar Life!');
         return { success: true };
       }
     } catch (error) {
@@ -78,7 +89,7 @@ export const AuthProvider = ({ children }) => {
         `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
         { phoneNumber }
       );
-      
+
       if (response.data.success) {
         const { token, user } = response.data;
         localStorage.setItem('token', token);

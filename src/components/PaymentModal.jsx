@@ -76,6 +76,13 @@ export default function PaymentModal({ isOpen, onClose, profile, onSuccess }) {
     }
   };
 
+  const navigateToChat = () => {
+    handleClose();
+    setTimeout(() => {
+      window.location.href = `/chats?profileId=${profile._id}`;
+    }, 100);
+  };
+
   useEffect(() => {
     let interval;
     if (transactionRequestId && paymentStatus === 'pending') {
@@ -95,8 +102,7 @@ export default function PaymentModal({ isOpen, onClose, profile, onSuccess }) {
             toast.success('Payment successful! Profile unlocked!');
             if (onSuccess) onSuccess();
             setTimeout(() => {
-              handleClose();
-              window.location.href = `/chats?profileId=${profile._id}`;
+              navigateToChat();
             }, 1500);
           } else if (status === 'failed') {
             clearInterval(interval);
@@ -112,19 +118,21 @@ export default function PaymentModal({ isOpen, onClose, profile, onSuccess }) {
     return () => clearInterval(interval);
   }, [transactionRequestId, paymentStatus, onSuccess, profile]);
 
+  const firstName = profile?.fullName?.split(' ')[0] || profile?.fullName || 'Profile';
+
   return (
     <Modal isOpen={isOpen} onClose={handleClose}>
       {step === 'options' && (
         <div className="p-6 sm:p-8">
           <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-20 h-20 rounded-3xl bg-gradient-to-br from-[#22C55E]/20 to-[#16A34A]/10 text-5xl mb-5 shadow-lg shadow-green-500/20">
+            <div className="inline-flex items-center justify-center w-20 h-20 rounded-3xl bg-gradient-to-br from-[#FF2D95]/20 to-[#D4267D]/10 text-5xl mb-5 shadow-lg shadow-[#FF2D95]/20">
               🔓
             </div>
             <h3 className="text-2xl sm:text-3xl font-bold text-white mb-2">
-              Unlock {profile?.fullName || 'Profile'}
+              Unlock {firstName}
             </h3>
             <p className="text-[#E8D5A3] text-base sm:text-lg">
-              Get full access and start chatting
+              Pay KES 99 to start chatting instantly
             </p>
           </div>
 
@@ -151,13 +159,13 @@ export default function PaymentModal({ isOpen, onClose, profile, onSuccess }) {
               className="w-full flex items-center justify-center gap-3 bg-gradient-to-r from-[#22C55E] to-[#16A34A] hover:from-[#16A34A] hover:to-[#22C55E] text-white font-bold py-5 sm:py-6 rounded-xl transition-all duration-300 text-xl sm:text-2xl shadow-lg shadow-green-500/30 hover:shadow-xl hover:shadow-green-500/40"
             >
               <span className="text-3xl">💳</span>
-              <span>Tap Here to Pay</span>
+              <span>💳 Pay via M-Pesa</span>
             </button>
             <button
               onClick={() => setStep('manual')}
               className="w-full text-[#E8D5A3] hover:text-white py-3 text-sm transition-colors"
             >
-              Or use Manual Payment
+              📱 Manual Payment
             </button>
           </div>
         </div>
@@ -176,7 +184,7 @@ export default function PaymentModal({ isOpen, onClose, profile, onSuccess }) {
               💳
             </div>
             <h3 className="text-white font-bold text-xl sm:text-2xl mb-2">Pay KES 99 via M-Pesa</h3>
-            <p className="text-[#E8D5A3] text-sm">Complete payment to unlock {profile?.fullName}</p>
+            <p className="text-[#E8D5A3] text-sm">Complete payment to unlock {firstName}</p>
           </div>
           <label className="block text-[#E8D5A3] text-sm font-medium mb-2">
             M-Pesa Phone Number
@@ -194,7 +202,7 @@ export default function PaymentModal({ isOpen, onClose, profile, onSuccess }) {
             disabled={loading || paymentStatus === 'pending'}
             className="w-full bg-gradient-to-r from-[#22C55E] to-[#16A34A] hover:from-[#16A34A] hover:to-[#22C55E] text-white font-bold py-5 rounded-xl transition-all duration-300 text-xl shadow-lg shadow-green-500/30 disabled:opacity-50"
           >
-            {loading ? '⏳ Processing...' : paymentStatus === 'pending' ? '⏳ Waiting for payment...' : 'Tap to Pay - KES 99'}
+            {loading ? '⏳ Processing...' : paymentStatus === 'pending' ? '⏳ Waiting for payment...' : 'Pay KES 99 - M-Pesa'}
           </button>
 
           {paymentStatus === 'pending' && (
@@ -218,10 +226,7 @@ export default function PaymentModal({ isOpen, onClose, profile, onSuccess }) {
                       setLoading(false);
                       toast.success('Payment successful! Profile unlocked!');
                       if (onSuccess) onSuccess();
-                      setTimeout(() => {
-                        handleClose();
-                        window.location.href = `/chats?profileId=${profile._id}`;
-                      }, 1500);
+                      setTimeout(() => { navigateToChat(); }, 1500);
                     } else if (status === 'failed') {
                       setPaymentStatus('failed');
                       setLoading(false);
@@ -264,7 +269,7 @@ export default function PaymentModal({ isOpen, onClose, profile, onSuccess }) {
           </button>
           <div className="text-center mb-6">
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-[#C9A84C]/15 text-3xl mb-3">
-              📝
+              📱
             </div>
             <h3 className="text-white font-bold text-xl sm:text-2xl mb-2">Manual Payment</h3>
             <p className="text-[#E8D5A3] text-sm">Send KES 99 via M-Pesa</p>

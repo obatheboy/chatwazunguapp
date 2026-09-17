@@ -122,7 +122,7 @@ export default function ActivationPage() {
 
         <div className="bg-gradient-to-br from-[#2A2522] to-[#1A1715] rounded-2xl p-5 sm:p-6 border border-[#C9A84C]/20 mb-6">
           <div className="text-center">
-            <div className="text-4xl font-bold text-white mb-2">KES 205</div>
+            <div className="text-4xl font-bold text-white mb-2">KES 98</div>
             <p className="text-[#E8D5A3] text-sm mb-4">One-time account activation fee</p>
             <div className="space-y-2 text-left text-sm text-[#E8D5A3]">
               <div className="flex items-center gap-2">
@@ -210,7 +210,7 @@ export default function ActivationPage() {
             ) : paymentStatus === 'pending' ? (
               'Waiting for payment...'
             ) : (
-              'Activate Account - KES 205'
+              'Activate Account - KES 98'
             )}
           </button>
         </form>
